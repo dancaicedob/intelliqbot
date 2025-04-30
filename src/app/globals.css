@@ -52,6 +52,16 @@ body {
   animation: spin-slow-reverse 10s linear infinite;
 }
 
+/* Quitar cualquier scrollbar visible */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 
 @tailwind base;
 @tailwind components;
