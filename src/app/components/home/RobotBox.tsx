@@ -1,14 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 
 interface RobotBoxProps {
+  id: string;
   title: string;
   subtitle: string;
   icon: React.ReactNode;
 }
 
-export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
+export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
   const [isVisible, setIsVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
@@ -32,8 +34,9 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
 
   return (
     <div
+      id={id}
       ref={boxRef}
-      className="min-h-screen flex items-center justify-center p-8 snap-start"
+      className="min-h-screen flex items-center justify-center p-8 snap-start scroll-mt-16"
     >
       <div className="flex flex-col items-start text-left">
         {/* Icono */}
@@ -45,14 +48,16 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
           {icon}
         </div>
 
-        {/* Título con línea debajo */}
-        <h2
-          className={`text-2xl font-semibold text-white mt-4 border-b-2 border-cyan-400 pb-1 drop-shadow transition-all duration-1000 ease-in-out delay-300 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          {title}
-        </h2>
+        {/* Título con enlace */}
+        <Link href={`#${id}`} scroll={true}>
+          <h2
+            className={`cursor-pointer text-2xl font-semibold text-white mt-4 border-b-2 border-cyan-400 pb-1 drop-shadow transition-all duration-1000 ease-in-out delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {title}
+          </h2>
+        </Link>
 
         {/* Subtítulo */}
         <p

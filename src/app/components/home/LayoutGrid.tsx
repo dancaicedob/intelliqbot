@@ -2,14 +2,13 @@ import RobotBox from './RobotBox';
 import AIChip from './iconos/AIChip';
 import Image from 'next/image';
 
-
 export default function LayoutGrid() {
   return (
-    <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
-        
+    <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
       
       {/* Work */}
       <RobotBox
+        id="work"
         title="Work"
         subtitle="Descubre nuestros proyectos destacados."
         icon={<AIChip />}
@@ -17,6 +16,7 @@ export default function LayoutGrid() {
 
       {/* Servicios */}
       <RobotBox
+        id="servicios"
         title="Servicios"
         subtitle="Explora nuestros servicios de IA."
         icon={
@@ -32,6 +32,7 @@ export default function LayoutGrid() {
 
       {/* Nosotros */}
       <RobotBox
+        id="nosotros"
         title="Nosotros"
         subtitle="Conoce más sobre nuestra agencia."
         icon={
@@ -47,6 +48,7 @@ export default function LayoutGrid() {
 
       {/* Contacto */}
       <RobotBox
+        id="contacto"
         title="Contacto"
         subtitle="Ponte en contacto con nosotros."
         icon={
