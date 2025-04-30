@@ -15,6 +15,8 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
 
   // Animación de entrada
   useEffect(() => {
+    const currentBoxRef = boxRef.current;  // Guardamos el valor de boxRef.current en una variable
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -24,13 +26,13 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
       { threshold: 0.5 }
     );
 
-    if (boxRef.current) {
-      observer.observe(boxRef.current);
+    if (currentBoxRef) {
+      observer.observe(currentBoxRef);
     }
 
     return () => {
-      if (boxRef.current) {
-        observer.unobserve(boxRef.current);
+      if (currentBoxRef) {
+        observer.unobserve(currentBoxRef);
       }
     };
   }, []);
@@ -53,27 +55,21 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
         <div className="text-center">
           {/* Icono animado */}
           <div
-            className={`transition-all duration-1000 ease-in-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {icon}
           </div>
 
           {/* Título animado */}
           <h2
-            className={`text-4xl font-bold text-white mt-6 transition-all duration-1000 ease-in-out delay-300 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-4xl font-bold text-white mt-6 transition-all duration-1000 ease-in-out delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {title}
           </h2>
 
           {/* Subtítulo animado */}
           <p
-            className={`text-gray-400 mt-4 transition-all duration-1000 ease-in-out delay-500 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
+            className={`text-gray-400 mt-4 transition-all duration-1000 ease-in-out delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           >
             {subtitle}
           </p>
