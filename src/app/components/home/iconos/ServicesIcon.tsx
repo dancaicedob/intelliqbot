@@ -112,21 +112,6 @@ const ServicesIcon = () => {
           IA
         </text>
 
-        {/* Brillo móvil */}
-        {isMobile && (
-          <motion.rect
-            x="-300"
-            y="30"
-            width="60"
-            height="240"
-            fill="white"
-            opacity="0.1"
-            filter="url(#glow-effect)"
-            variants={glowVariants}
-            initial="hidden"
-            animate={controls}
-          />
-        )}
       </svg>
     </div>
   );
