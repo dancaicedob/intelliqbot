@@ -32,58 +32,47 @@ export default function ProjectCard({
 
   useEffect(() => {
     if (media.type !== 'video' || !sectionRef.current) return;
-    const observer = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       entries => {
-        entries.forEach(entry => {
-          if (videoRef.current && !entry.isIntersecting) {
+        entries.forEach(e => {
+          if (videoRef.current && !e.isIntersecting) {
             videoRef.current.pause();
           }
         });
       },
-      { root: null, threshold: 0.5 }
+      { threshold: 0.5 }
     );
-    observer.observe(sectionRef.current);
-    return () => observer.disconnect();
+    obs.observe(sectionRef.current);
+    return () => obs.disconnect();
   }, [media.type]);
 
   return (
     <section
       ref={sectionRef}
-      className="snap-start h-screen w-full flex flex-col justify-between bg-zinc-900 text-white overflow-hidden"
+      className="snap-start h-screen w-full flex flex-col bg-zinc-900 text-white overflow-hidden"
     >
-      {/* 1. Título compacto */}
-      <header className="px-3 pt-2">
+      {/* 1. Título pegado arriba */}
+      <header className="px-2 pt-2">
         <h2 className="text-lg font-semibold">{title}</h2>
       </header>
 
-      {/* 2. Multimedia */}
-      <div className="flex-1 flex items-center justify-center px-2">
-        <div
-          className="
-            relative
-            w-11/12 max-w-xs
-            sm:w-3/4 sm:max-w-sm
-            md:w-1/2 md:max-w-md
-            lg:w-2/3 lg:max-w-xl
-            aspect-[9/16]
-            bg-black rounded-lg
-            overflow-hidden
-          "
-        >
+      {/* 2. Multimedia ocupa ~70vh y full width */}
+      <div className="px-0">
+        <div className="relative w-full h-[70vh] bg-black">
           {media.type === 'image' ? (
             <Image
               src={media.src}
               alt={media.alt || title}
               fill
               className="object-cover"
-              loading="lazy"
+              sizes="100vw"
             />
           ) : (
             <video
               ref={videoRef}
               src={media.src}
-              controls
               poster={media.poster}
+              controls
               preload="metadata"
               playsInline
               className="w-full h-full object-cover"
@@ -92,25 +81,23 @@ export default function ProjectCard({
         </div>
       </div>
 
-      {/* 3. Descripción, etiquetas y enlaces */}
-      <div className="px-3 pb-4 space-y-2">
-        <p className="text-gray-300 text-xs">{description}</p>
-
+      {/* 3. Descripción y etiquetas pegadas justo abajo */}
+      <div className="px-2 pt-1 pb-2">
+        <p className="text-gray-300 text-sm">{description}</p>
         {technologies.length > 0 && (
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 mt-1">
             {technologies.map(tech => (
               <span
                 key={tech}
-                className="bg-cyan-700 text-[10px] font-medium px-1.5 py-0.5 rounded-full"
+                className="bg-cyan-700 text-[10px] font-medium px-1 py-0.5 rounded-full"
               >
                 {tech}
               </span>
             ))}
           </div>
         )}
-
         {links.length > 0 && (
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex flex-wrap gap-2 mt-1">
             {links.map(link => (
               <Link
                 key={link.url}
