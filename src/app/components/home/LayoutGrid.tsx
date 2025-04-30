@@ -3,7 +3,6 @@ import AIChip from './iconos/AIChip';
 import AboutIcon from './iconos/AboutIcon';
 import ContactIcon from './iconos/ContactIcon';
 import ServicesIcon from './iconos/ServicesIcon';
-import { FaTools, FaUsers, FaEnvelope } from 'react-icons/fa';
 
 export default function LayoutGrid() {
   return (
