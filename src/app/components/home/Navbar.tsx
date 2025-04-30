@@ -1,42 +1,41 @@
-'use client'; // Necesario para usar hooks y estado en Next.js
+'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
+import clsx from 'clsx';
 
-export default function Navbar() {
+export default function FloatingNavbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const [showButton, setShowButton] = useState(true);
+  const lastScrollY = useRef(0);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  // Cerrar el menú al hacer clic fuera
+  // Detectar dirección del scroll
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        closeMenu();
-      }
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowButton(currentScrollY < lastScrollY.current || currentScrollY < 50);
+      lastScrollY.current = currentScrollY;
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 md:hidden">
-      {/* Botón para abrir/cerrar el menú */}
+    <>
+      {/* Botón flotante en la esquina superior derecha */}
       <button
         onClick={toggleMenu}
-        className="fixed top-4 right-4 p-3 bg-gray-900 rounded-lg shadow-lg hover:bg-gray-800 transition-all"
+        className={clsx(
+          'fixed z-50 top-4 right-4 p-3 rounded-full shadow-xl transition-all bg-gradient-to-tr from-cyan-600 to-indigo-600 hover:scale-105 md:hidden',
+          showButton ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        )}
+        aria-label="Menú"
       >
         {isOpen ? (
           <FaTimes className="text-white text-2xl" />
@@ -45,77 +44,40 @@ export default function Navbar() {
         )}
       </button>
 
-      {/* Menú desplegable */}
+      {/* Menú lateral flotante */}
       <div
-        ref={menuRef}
-        className={`fixed top-0 right-0 w-3/4 h-screen bg-gray-900/95 backdrop-blur-md transition-transform duration-300 ease-in-out ${
+        className={clsx(
+          'fixed inset-0 z-40 transition-transform duration-300 bg-zinc-900/80 backdrop-blur-xl md:hidden',
           isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        )}
       >
-        {/* Botón de cerrar dentro del menú */}
-        <button
-          onClick={closeMenu}
-          className="absolute top-4 right-4 p-3 text-white hover:text-accent transition-all"
-        >
-          <FaTimes className="text-2xl" />
-        </button>
-
-        {/* Contenido del menú */}
-        <div className="container mx-auto p-8 h-full flex flex-col justify-between">
-          <ul className="flex flex-col space-y-6">
-            <li>
-              <Link
-                href="#work"
-                onClick={closeMenu}
-                className="text-2xl font-bold text-white hover:text-accent transition-all"
-              >
-                Work
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#servicios"
-                onClick={closeMenu}
-                className="text-2xl font-bold text-white hover:text-accent transition-all"
-              >
-                Servicios
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#nosotros"
-                onClick={closeMenu}
-                className="text-2xl font-bold text-white hover:text-accent transition-all"
-              >
-                Nosotros
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="#contacto"
-                onClick={closeMenu}
-                className="text-2xl font-bold text-white hover:text-accent transition-all"
-              >
-                Contacto
-              </Link>
-            </li>
+        <div className="flex flex-col justify-between h-full p-8">
+          <ul className="space-y-6 mt-20">
+            {['Work', 'Servicios', 'Nosotros', 'Contacto'].map((section) => (
+              <li key={section}>
+                <Link
+                  href={`#${section.toLowerCase()}`}
+                  onClick={closeMenu}
+                  className="text-2xl font-semibold text-white hover:text-cyan-400 transition-colors"
+                >
+                  {section}
+                </Link>
+              </li>
+            ))}
           </ul>
 
-          {/* Logo y frase en la parte inferior */}
-          <div className="text-center mb-[50px]">
+          <div className="text-center">
             <Image
               src="/images/logo-navbar.png"
               alt="Logo"
-              width={100}
-              height={100}
+              width={90}
+              height={90}
               className="mx-auto"
             />
-            <p className="text-gray-400 mt-4">
-              Innovando con IA desde 2023.
-            </p>
+            <p className="text-gray-400 mt-3 text-sm">Innovando con IA desde 2023.</p>
           </div>
         </div>
       </div>
-    </nav>
+    </>
   );
 }

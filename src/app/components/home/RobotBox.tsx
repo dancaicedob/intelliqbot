@@ -49,7 +49,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
         </div>
 
         {/* Título con enlace */}
-        <Link href={`#${id}`} scroll={true}>
+        <Link href={id} scroll={true}>
           <h2
             className={`cursor-pointer text-2xl font-semibold text-white mt-4 border-b-2 border-cyan-400 pb-1 drop-shadow transition-all duration-1000 ease-in-out delay-300 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
