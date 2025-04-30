@@ -1,4 +1,4 @@
-'use client'; // Necesario para usar animaciones y hooks
+'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { FaCog } from 'react-icons/fa';
@@ -13,9 +13,8 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
   const [isVisible, setIsVisible] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
-  // Animación de entrada
   useEffect(() => {
-    const currentBoxRef = boxRef.current;  // Guardamos el valor de boxRef.current en una variable
+    const currentBoxRef = boxRef.current;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -40,40 +39,33 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
   return (
     <div
       ref={boxRef}
-      className="min-h-screen flex items-center justify-center p-8 snap-start"
+      className="h-screen w-screen flex items-center justify-center p-4 snap-start bg-gray-900 relative overflow-hidden"
     >
-      <div className="relative bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-4xl border-2 border-gray-700 overflow-hidden">
-        {/* Engranes en las esquinas */}
-        <div className="absolute top-4 left-4 text-blue-400 animate-spin-slow">
-          <FaCog className="text-4xl" />
-        </div>
-        <div className="absolute bottom-4 right-4 text-blue-600 animate-spin-slow-reverse">
-          <FaCog className="text-4xl" />
-        </div>
+      {/* Engranes */}
+      <div className="absolute top-4 left-4 text-blue-400 animate-spin-slow">
+        <FaCog className="text-4xl" />
+      </div>
+      <div className="absolute bottom-4 right-4 text-blue-600 animate-spin-slow-reverse">
+        <FaCog className="text-4xl" />
+      </div>
 
-        {/* Contenido animado */}
-        <div className="text-center">
-          {/* Icono animado */}
-          <div
-            className={`transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          >
-            {icon}
-          </div>
-
-          {/* Título animado */}
-          <h2
-            className={`text-4xl font-bold text-white mt-6 transition-all duration-1000 ease-in-out delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          >
-            {title}
-          </h2>
-
-          {/* Subtítulo animado */}
-          <p
-            className={`text-gray-400 mt-4 transition-all duration-1000 ease-in-out delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          >
-            {subtitle}
-          </p>
+      {/* Contenido */}
+      <div className="text-center max-w-md px-4">
+        <div
+          className={`transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          {icon}
         </div>
+        <h2
+          className={`text-4xl font-bold text-white mt-6 transition-all duration-1000 ease-in-out delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          {title}
+        </h2>
+        <p
+          className={`text-gray-400 mt-4 transition-all duration-1000 ease-in-out delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
+          {subtitle}
+        </p>
       </div>
     </div>
   );

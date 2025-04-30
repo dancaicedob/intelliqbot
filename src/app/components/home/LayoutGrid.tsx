@@ -1,5 +1,8 @@
 import RobotBox from './RobotBox';
-import AIChip from './AIChip';
+import AIChip from './iconos/AIChip';
+import AboutIcon from './iconos/AboutIcon';
+import ContactIcon from './iconos/ContactIcon';
+import ServicesIcon from './iconos/ServicesIcon';
 import { FaTools, FaUsers, FaEnvelope } from 'react-icons/fa';
 
 export default function LayoutGrid() {
@@ -16,21 +19,21 @@ export default function LayoutGrid() {
       <RobotBox
         title="Servicios"
         subtitle="Explora nuestros servicios de IA."
-        icon={<FaTools className="text-6xl text-blue-400 mx-auto" />}
+        icon={<ServicesIcon />}
       />
 
       {/* Nosotros */}
       <RobotBox
         title="Nosotros"
         subtitle="Conoce más sobre nuestra agencia."
-        icon={<FaUsers className="text-6xl text-blue-400 mx-auto" />}
+        icon={<AboutIcon/>}
       />
 
       {/* Contacto */}
       <RobotBox
         title="Contacto"
         subtitle="Ponte en contacto con nosotros."
-        icon={<FaEnvelope className="text-6xl text-blue-400 mx-auto" />}
+        icon={<ContactIcon />}
       />
     </div>
   );

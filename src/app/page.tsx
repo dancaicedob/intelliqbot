@@ -1,6 +1,6 @@
 import Navbar from '@/app/components/home/Navbar';
 import LayoutGrid from '@/app/components/home/LayoutGrid';
-import AIChip from './components/home/AIChip';
+import AIChip from './components/home/iconos/AIChip';
 
 export default function Home() {
   return (
