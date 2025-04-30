@@ -51,7 +51,7 @@ export default function LayoutGrid() {
             src="/icons/icono-contacto.png"
             alt="Contacto Icon"
             width={300}
-            height={64}
+            height={300}
             className="mx-auto"
           />
         }
