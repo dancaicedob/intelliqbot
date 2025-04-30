@@ -1,8 +1,6 @@
 import RobotBox from './RobotBox';
 import AIChip from './iconos/AIChip';
-import AboutIcon from './iconos/AboutIcon';
-import ContactIcon from './iconos/ContactIcon';
-import ServicesIcon from './iconos/ServicesIcon';
+import Image from 'next/image';
 
 export default function LayoutGrid() {
   return (
@@ -11,28 +9,52 @@ export default function LayoutGrid() {
       <RobotBox
         title="Work"
         subtitle="Descubre nuestros proyectos destacados."
-        icon={<AIChip />} // Usa AIChip aquí
+        icon={<AIChip />}
       />
 
       {/* Servicios */}
       <RobotBox
         title="Servicios"
         subtitle="Explora nuestros servicios de IA."
-        icon={<ServicesIcon />}
+        icon={
+          <Image
+            src="/icons/icono-servicios.png"
+            alt="Servicios Icon"
+            width={300}
+            height={300}
+            className="mx-auto"
+          />
+        }
       />
 
       {/* Nosotros */}
       <RobotBox
         title="Nosotros"
         subtitle="Conoce más sobre nuestra agencia."
-        icon={<AboutIcon/>}
+        icon={
+          <Image
+            src="/icons/icono-nosotros.png"
+            alt="Nosotros Icon"
+            width={300}
+            height={300}
+            className="mx-auto"
+          />
+        }
       />
 
       {/* Contacto */}
       <RobotBox
         title="Contacto"
         subtitle="Ponte en contacto con nosotros."
-        icon={<ContactIcon />}
+        icon={
+          <Image
+            src="/icons/icono-contacto.png"
+            alt="Contacto Icon"
+            width={300}
+            height={64}
+            className="mx-auto"
+          />
+        }
       />
     </div>
   );

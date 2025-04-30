@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { FaCog } from 'react-icons/fa';
 
 interface RobotBoxProps {
   title: string;
@@ -14,8 +13,6 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
   const boxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const currentBoxRef = boxRef.current;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -25,44 +22,43 @@ export default function RobotBox({ title, subtitle, icon }: RobotBoxProps) {
       { threshold: 0.5 }
     );
 
-    if (currentBoxRef) {
-      observer.observe(currentBoxRef);
-    }
+    const currentRef = boxRef.current;
+    if (currentRef) observer.observe(currentRef);
 
     return () => {
-      if (currentBoxRef) {
-        observer.unobserve(currentBoxRef);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
   }, []);
 
   return (
     <div
       ref={boxRef}
-      className="h-screen w-screen flex items-center justify-center p-4 snap-start bg-gray-900 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center p-8 snap-start"
     >
-      {/* Engranes */}
-      <div className="absolute top-4 left-4 text-blue-400 animate-spin-slow">
-        <FaCog className="text-4xl" />
-      </div>
-      <div className="absolute bottom-4 right-4 text-blue-600 animate-spin-slow-reverse">
-        <FaCog className="text-4xl" />
-      </div>
-
-      {/* Contenido */}
-      <div className="text-center max-w-md px-4">
+      <div className="flex flex-col items-start text-left">
+        {/* Icono */}
         <div
-          className={`transition-all duration-1000 ease-in-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`transition-all duration-1000 ease-in-out ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
         >
           {icon}
         </div>
+
+        {/* Título con línea debajo */}
         <h2
-          className={`text-4xl font-bold text-white mt-6 transition-all duration-1000 ease-in-out delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`text-2xl font-semibold text-white mt-4 border-b-2 border-cyan-400 pb-1 drop-shadow transition-all duration-1000 ease-in-out delay-300 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
         >
           {title}
         </h2>
+
+        {/* Subtítulo */}
         <p
-          className={`text-gray-400 mt-4 transition-all duration-1000 ease-in-out delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`text-sm text-gray-400 font-light mt-2 max-w-xs transition-all duration-1000 ease-in-out delay-500 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
         >
           {subtitle}
         </p>
