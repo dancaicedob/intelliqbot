@@ -1,15 +1,26 @@
 'use client';
 
 import React from 'react';
-import { motion } from "framer-motion";
+import { motion, Variants } from 'framer-motion';
+
+// Define the type for each connection
+interface Connection {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+  id: string;
+}
 
 const AIChip = () => {
+  // Definir filas y columnas fuera de la función
+  const size = 30;
+  const rows = 5;
+  const cols = 5;
+
   // Configuración de diseño estructurado
   const generateHexGrid = () => {
     const grid = [];
-    const size = 30;
-    const rows = 5;
-    const cols = 5;
 
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -24,12 +35,12 @@ const AIChip = () => {
   const hexGrid = generateHexGrid();
 
   // Generar conexiones inteligentes
-  const generateConnections = () => {
-    const connections = [];
-    
+  const generateConnections = (): Connection[] => {
+    const connections: Connection[] = [];
+
     hexGrid.forEach((point, index) => {
       // Conexión derecha
-      if (index % hexGrid.length !== cols - 1) {
+      if (index % cols !== cols - 1) {
         const rightPoint = hexGrid[index + 1];
         if (rightPoint) {
           connections.push({
@@ -41,7 +52,7 @@ const AIChip = () => {
           });
         }
       }
-      
+
       // Conexión abajo-derecha
       if (index + cols < hexGrid.length && index % cols !== cols - 1) {
         const bottomRightPoint = hexGrid[index + cols];
@@ -56,30 +67,31 @@ const AIChip = () => {
         }
       }
     });
-    
+
     return connections;
   };
 
   const connections = generateConnections();
 
-  // Variantes de animación
-  const nodeVariants = {
+  // Variantes de animación para los nodos
+  const nodeVariants: Variants = {
     hidden: { scale: 0, opacity: 0 },
-    visible: (delay) => ({
+    visible: (delay: number) => ({
       scale: 1,
       opacity: 0.8,
       transition: {
         delay: delay * 0.05,
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
         damping: 10
       }
     })
   };
 
-  const connectionVariants = {
+  // Variantes de animación para las conexiones
+  const connectionVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: (delay) => ({
+    visible: (delay: number) => ({
       opacity: 0.6,
       transition: {
         delay: delay * 0.02,
@@ -88,7 +100,8 @@ const AIChip = () => {
     })
   };
 
-  const flowVariants = {
+  // Variantes de animación para el flujo de datos
+  const flowVariants: Variants = {
     hidden: { opacity: 0, pathLength: 0 },
     visible: {
       opacity: 1,
@@ -96,8 +109,8 @@ const AIChip = () => {
       transition: {
         duration: 2,
         repeat: Infinity,
-        repeatType: "loop",
-        ease: "linear"
+        repeatType: 'loop',
+        ease: 'linear'
       }
     }
   };
@@ -115,15 +128,15 @@ const AIChip = () => {
             <stop offset="0%" stopColor="#00FFFF" />
             <stop offset="100%" stopColor="#FF00FF" />
           </linearGradient>
-          
+
           <linearGradient id="gradient-secondary" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stopColor="#FF00FF" />
             <stop offset="100%" stopColor="#00FFFF" />
           </linearGradient>
-          
+
           <filter id="glow-effect" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="2" result="blur"/>
-            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
 
