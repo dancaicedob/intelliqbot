@@ -67,13 +67,10 @@ export default function WorksGrid() {
   ];
 
   return (
-    <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
+    <div className="snap-y snap-mandatory h-screen overflow-y-scroll scrollbar-none">
       {projects.map((project, idx) => (
-        <div key={idx} className="snap-start h-screen flex items-center justify-center px-4">
-          <ProjectCard {...project} />
-        </div>
+        <ProjectCard key={idx} {...project} />
       ))}
     </div>
   );
 }
-
