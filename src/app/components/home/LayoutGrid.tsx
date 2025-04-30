@@ -2,9 +2,12 @@ import RobotBox from './RobotBox';
 import AIChip from './iconos/AIChip';
 import Image from 'next/image';
 
+
 export default function LayoutGrid() {
   return (
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
+        
+      
       {/* Work */}
       <RobotBox
         title="Work"
