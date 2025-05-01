@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 interface RobotBoxProps {
@@ -14,9 +13,9 @@ interface RobotBoxProps {
 // Secuencia de chat
 const chatSequence = [
   { from: 'user', text: 'Hola, tengo un problema.' },
-  { from: 'bot', text: 'Hola bro, bienvenido a IntelliqBot, cuéntame cómo te puedo ayudar.' },
+  { from: 'bot', text: 'Hola bro, bienvenido a IntelliqBot, ¿en qué puedo ayudarte?' },
   { from: 'user', text: 'Quiero un chatbot para mi ecommerce que maneje inventario.' },
-  { from: 'bot', text: '¡Con gusto! Necesito preguntarte algunas cosas para entender mejor lo que quieres...' },
+  { from: 'bot', text: '¡Con gusto! Necesito hacerte algunas preguntas para entender mejor tus necesidades...' },
 ];
 
 export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
@@ -26,10 +25,10 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Observador de visibilidad para animaciones
+  // Observador de visibilidad para activar animaciones
   useEffect(() => {
     const obs = new IntersectionObserver(
-      ([e]) => setVisible(e.isIntersecting),
+      ([entry]) => setVisible(entry.isIntersecting),
       { threshold: 0.5 }
     );
     if (ref.current) obs.observe(ref.current);
@@ -42,18 +41,18 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
     const { text } = chatSequence[step];
     let idx = 0;
     setDisplayText('');
-    const speed = chatSequence[step].from === 'bot' ? 30 : 10;
-    const typer = setInterval(() => {
+    const speed = chatSequence[step].from === 'bot' ? 30 : 15;
+    const timer = setInterval(() => {
       setDisplayText(text.slice(0, ++idx));
       if (idx === text.length) {
-        clearInterval(typer);
-        setTimeout(() => setStep(s => s + 1), 800);
+        clearInterval(timer);
+        setTimeout(() => setStep(s => s + 1), 1000);
       }
     }, speed);
-    return () => clearInterval(typer);
+    return () => clearInterval(timer);
   }, [visible, step]);
 
-  // Auto-scroll
+  // Auto-scroll al último mensaje
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -64,64 +63,51 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
     <section
       id={id}
       ref={ref}
-      className="snap-start min-h-screen flex flex-col items-center justify-center p-4 md:p-12 bg-gradient-to-br from-gray-900 to-zinc-800 overflow-hidden"
+      className="snap-start min-h-screen flex items-center justify-center p-6 md:p-12 bg-gray-100"
     >
-      <div className="relative w-full max-w-md flex flex-col items-center gap-6 z-10">
-        {/* Icono animado */}
-        <motion.div
-          className="p-4 md:p-6 rounded-xl border-2 border-cyan-500 bg-black/40 backdrop-blur-sm"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={visible ? { scale: 1, opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
-          whileHover={{ scale: 1.1 }}
-        >
-          {icon}
-        </motion.div>
+      <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-6">
+        {/* Encabezado */}
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-cyan-500 rounded-xl shadow-md">{icon}</div>
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
+            <p className="text-gray-500 text-sm">{subtitle}</p>
+          </div>
+        </div>
 
-        {/* Título y subtítulo */}
-        <motion.h2
-          className="text-xl md:text-3xl font-bold text-white drop-shadow-lg text-center"
-          initial={{ y: -20, opacity: 0 }}
-          animate={visible ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {title}
-        </motion.h2>
-        <motion.p
-          className="text-gray-300 text-center text-sm md:text-base"
-          initial={{ y: 20, opacity: 0 }}
-          animate={visible ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          {subtitle}
-        </motion.p>
-
-        {/* Chat en vivo */}
+        {/* Contenedor de chat */}
         <div
           ref={chatContainerRef}
-          className="w-full h-60 md:h-72 bg-black/70 p-4 rounded-lg flex flex-col overflow-y-auto space-y-2"
+          className="h-64 bg-gray-50 border border-gray-200 rounded-xl p-4 overflow-y-auto space-y-3"
         >
           {chatSequence.slice(0, step).map((msg, i) => (
             <div
               key={i}
               className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <span className={
-                `inline-block px-3 py-1 rounded-lg max-w-3/4 break-words text-sm md:text-base ` +
-                (msg.from === 'user' ? 'bg-green-800 text-green-200' : 'bg-cyan-900 text-cyan-200')
-              }>
+              <div
+                className={`max-w-[75%] px-4 py-2 rounded-lg whitespace-pre-wrap text-sm ` +
+                (msg.from === 'user'
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-green-100 text-green-800')
+                }
+              >
                 {msg.text}
-              </span>
+              </div>
             </div>
           ))}
           {step < chatSequence.length && (
-            <div className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <span className={`inline-block px-3 py-1 rounded-lg max-w-3/4 break-words text-sm md:text-base ` +
-                (chatSequence[step].from === 'user' ? 'bg-green-800 text-green-200' : 'bg-cyan-900 text-cyan-200')
-              }>
-                {displayText}
-                <span className="ml-1 inline-block w-2 h-2 bg-current animate-blink" />
-              </span>
+            <div className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}>  
+              <div
+                className={`max-w-[75%] px-4 py-2 rounded-lg whitespace-pre-wrap text-sm flex items-center ` +
+                (chatSequence[step].from === 'user'
+                  ? 'bg-blue-100 text-blue-800'
+                  : 'bg-green-100 text-green-800')
+                }
+              >
+                <span>{displayText}</span>
+                <span className="ml-2 inline-block w-2 h-2 bg-current rounded-full animate-blink" />
+              </div>
             </div>
           )}
         </div>
@@ -129,7 +115,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
 
       <style jsx>{`
         @keyframes blink { 50% { opacity: 0; } }
-        .animate-blink { animation: blink 0.8s infinite; }
+        .animate-blink { animation: blink 1s linear infinite; }
       `}</style>
     </section>
   );
