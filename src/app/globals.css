@@ -63,6 +63,19 @@ body {
 
 
 
+
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+  }
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
