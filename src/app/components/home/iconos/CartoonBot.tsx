@@ -1,109 +1,136 @@
-import React from 'react';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export default function CartoonChatbotScene() {
+interface RobotBoxProps {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+}
+
+// Secuencia de chat
+const chatSequence = [
+  { from: 'user', text: 'Hola, tengo un problema.' },
+  { from: 'bot', text: 'Hola bro, bienvenido a IntelliqBot, cuéntame cómo te puedo ayudar.' },
+  { from: 'user', text: 'Quiero un chatbot para mi ecommerce que maneje inventario.' },
+  { from: 'bot', text: '¡Con gusto! Necesito preguntarte algunas cosas para entender mejor lo que quieres...' },
+];
+
+export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
+  const [visible, setVisible] = useState(false);
+  const [step, setStep] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Observador de visibilidad para animaciones
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => setVisible(e.isIntersecting),
+      { threshold: 0.5 }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Mecanografía y avance de mensajes
+  useEffect(() => {
+    if (!visible || step >= chatSequence.length) return;
+    const { text } = chatSequence[step];
+    let idx = 0;
+    setDisplayText('');
+    const speed = chatSequence[step].from === 'bot' ? 30 : 10;
+    const typer = setInterval(() => {
+      setDisplayText(text.slice(0, ++idx));
+      if (idx === text.length) {
+        clearInterval(typer);
+        setTimeout(() => setStep(s => s + 1), 800);
+      }
+    }, speed);
+    return () => clearInterval(typer);
+  }, [visible, step]);
+
+  // Auto-scroll
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [step, displayText]);
+
   return (
-    <div className="chat-scene">
-      <div className="chatbot">
-        <div className="bot-head">
-          <div className="eyes">
-            <div className="eye"></div>
-            <div className="eye"></div>
-          </div>
-          <div className="antenna"></div>
+    <section
+      id={id}
+      ref={ref}
+      className="snap-start min-h-screen flex flex-col items-center justify-center p-4 md:p-12 bg-gradient-to-br from-gray-900 to-zinc-800 overflow-hidden"
+    >
+      <div className="relative w-full max-w-md flex flex-col items-center gap-6 z-10">
+        {/* Icono animado */}
+        <motion.div
+          className="p-4 md:p-6 rounded-xl border-2 border-cyan-500 bg-black/40 backdrop-blur-sm"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={visible ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.6 }}
+          whileHover={{ scale: 1.1 }}
+        >
+          {icon}
+        </motion.div>
+
+        {/* Título y subtítulo */}
+        <motion.h2
+          className="text-xl md:text-3xl font-bold text-white drop-shadow-lg text-center"
+          initial={{ y: -20, opacity: 0 }}
+          animate={visible ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          {title}
+        </motion.h2>
+        <motion.p
+          className="text-gray-300 text-center text-sm md:text-base"
+          initial={{ y: 20, opacity: 0 }}
+          animate={visible ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+        >
+          {subtitle}
+        </motion.p>
+
+        {/* Chat en vivo */}
+        <div
+          ref={chatContainerRef}
+          className="w-full h-60 md:h-72 bg-black/70 p-4 rounded-lg flex flex-col overflow-y-auto space-y-2"
+        >
+          {chatSequence.slice(0, step).map((msg, i) => (
+            <div
+              key={i}
+              className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <span className={
+                `inline-block px-3 py-1 rounded-lg max-w-3/4 break-words text-sm md:text-base ` +
+                (msg.from === 'user' ? 'bg-green-800 text-green-200' : 'bg-cyan-900 text-cyan-200')
+              }>
+                {msg.text}
+              </span>
+            </div>
+          ))}
+          {step < chatSequence.length && (
+            <div className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <span className={`inline-block px-3 py-1 rounded-lg max-w-3/4 break-words text-sm md:text-base ` +
+                (chatSequence[step].from === 'user' ? 'bg-green-800 text-green-200' : 'bg-cyan-900 text-cyan-200')
+              }>
+                {displayText}
+                <span className="ml-1 inline-block w-2 h-2 bg-current animate-blink" />
+              </span>
+            </div>
+          )}
         </div>
-        <div className="bot-body">INTELLIQBOT</div>
       </div>
 
-      <div className="chat-bubble user">Hola, tengo un problema.</div>
-      <motion.div className="chat-bubble bot" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
-        Hola bro, bienvenido a IntelliqBot, cuéntame cómo te puedo ayudar.
-      </motion.div>
-      <div className="chat-bubble user">Quiero un chatbot para mi ecommerce que maneje inventario.</div>
-      <motion.div className="chat-bubble bot" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2 }}>
-        ¡Con gusto! Necesito preguntarte algunas cosas para entender mejor lo que quieres...
-      </motion.div>
-
       <style jsx>{`
-        .chat-scene {
-          width: 100%;
-          max-width: 500px;
-          margin: 0 auto;
-          padding: 20px;
-          background: #f4f4f4;
-          border-radius: 16px;
-          font-family: 'Comic Sans MS', cursive, sans-serif;
-          position: relative;
-        }
-        .chatbot {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          margin-bottom: 20px;
-        }
-        .bot-head {
-          background: #00c8ff;
-          border-radius: 50%;
-          width: 100px;
-          height: 100px;
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .eyes {
-          display: flex;
-          gap: 10px;
-        }
-        .eye {
-          width: 12px;
-          height: 12px;
-          background: white;
-          border-radius: 50%;
-        }
-        .antenna {
-          position: absolute;
-          top: -20px;
-          width: 4px;
-          height: 20px;
-          background: #00c8ff;
-          border-radius: 2px;
-        }
-        .bot-body {
-          background: #00aaff;
-          padding: 10px 20px;
-          border-radius: 12px;
-          margin-top: 10px;
-          color: white;
-          font-weight: bold;
-        }
-        .chat-bubble {
-          max-width: 80%;
-          padding: 10px 15px;
-          margin: 10px 0;
-          border-radius: 16px;
-          position: relative;
-          font-size: 14px;
-        }
-        .chat-bubble.user {
-          align-self: flex-end;
-          background: #d0eaff;
-          border-bottom-right-radius: 0;
-        }
-        .chat-bubble.bot {
-          align-self: flex-start;
-          background: #e0ffd0;
-          border-bottom-left-radius: 0;
-        }
-        @media (max-width: 600px) {
-          .chat-scene {
-            padding: 10px;
-          }
-          .chat-bubble {
-            font-size: 13px;
-          }
-        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .animate-blink { animation: blink 0.8s infinite; }
       `}</style>
-    </div>
+    </section>
   );
 }
