@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { RocketIcon, BotIcon, BoxIcon, Settings2Icon, SignalIcon } from 'lucide-react';
+import { BoxIcon, Settings2Icon, SignalIcon } from 'lucide-react';
+import CartoonChatbotScene from '@/app/components/home/iconos/CartoonBot';
 
 interface ServiceModule {
   id: string;
@@ -14,7 +15,7 @@ const services: ServiceModule[] = [
     id: 'chatbots',
     title: 'Comunicador Autónomo',
     description: 'Chatbots para WhatsApp, web y más con IA.',
-    icon: <BotIcon className="w-8 h-8 text-cyan-400" />,
+    icon: <CartoonChatbotScene />, // Componente caricaturesco
   },
   {
     id: 'inventario',
