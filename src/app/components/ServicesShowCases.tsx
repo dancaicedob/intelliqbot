@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BoxIcon, Settings2Icon, SignalIcon } from 'lucide-react';
+import { BoxIcon, Settings2Icon, SignalIcon, BotIcon } from 'lucide-react';
 import CartoonChatbotScene from '@/app/components/home/iconos/CartoonBot';
 
 interface ServiceModule {
@@ -15,7 +17,14 @@ const services: ServiceModule[] = [
     id: 'chatbots',
     title: 'Comunicador Autónomo',
     description: 'Chatbots para WhatsApp, web y más con IA.',
-    icon: <CartoonChatbotScene />, // Componente caricaturesco
+    icon: (
+      <CartoonChatbotScene
+        id="chatbots"
+        title="Comunicador Autónomo"
+        subtitle="Chatbots para WhatsApp, web y más con IA."
+        icon={<BotIcon className="w-8 h-8 text-white" />}
+      />
+    ),
   },
   {
     id: 'inventario',
@@ -56,7 +65,7 @@ export default function ServicesShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className={`relative rounded-2xl p-6 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 border border-cyan-900 shadow-md hover:shadow-cyan-500/20 group`}
+            className="relative rounded-2xl p-6 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 border border-cyan-900 shadow-md hover:shadow-cyan-500/20 group"
           >
             <div className="mb-4">{service.icon}</div>
             <h3 className="text-white text-lg font-semibold mb-2 group-hover:text-cyan-400 transition-colors">

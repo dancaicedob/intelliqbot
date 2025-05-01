@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-
 interface RobotBoxProps {
   id: string;
   title: string;
@@ -68,7 +67,9 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
       <div className="relative w-full max-w-lg bg-white rounded-2xl shadow-lg p-6 flex flex-col gap-6">
         {/* Encabezado */}
         <div className="flex items-center gap-4">
-          <div className="p-3 bg-cyan-500 rounded-xl shadow-md">{icon}</div>
+          <div className="p-3 bg-cyan-500 rounded-xl shadow-md">
+            {icon}
+          </div>
           <div>
             <h2 className="text-2xl font-semibold text-gray-800">{title}</h2>
             <p className="text-gray-500 text-sm">{subtitle}</p>
@@ -87,22 +88,25 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
             >
               <div
                 className={`max-w-[75%] px-4 py-2 rounded-lg whitespace-pre-wrap text-sm ` +
-                (msg.from === 'user'
-                  ? 'bg-blue-100 text-blue-800'
-                  : 'bg-green-100 text-green-800')
+                  (msg.from === 'user'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-green-100 text-green-800')
                 }
               >
                 {msg.text}
               </div>
             </div>
           ))}
+
           {step < chatSequence.length && (
-            <div className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}>  
+            <div
+              className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
               <div
                 className={`max-w-[75%] px-4 py-2 rounded-lg whitespace-pre-wrap text-sm flex items-center ` +
-                (chatSequence[step].from === 'user'
-                  ? 'bg-blue-100 text-blue-800'
-                  : 'bg-green-100 text-green-800')
+                  (chatSequence[step].from === 'user'
+                    ? 'bg-blue-100 text-blue-800'
+                    : 'bg-green-100 text-green-800')
                 }
               >
                 <span>{displayText}</span>
@@ -114,8 +118,12 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
       </div>
 
       <style jsx>{`
-        @keyframes blink { 50% { opacity: 0; } }
-        .animate-blink { animation: blink 1s linear infinite; }
+        @keyframes blink {
+          50% { opacity: 0; }
+        }
+        .animate-blink {
+          animation: blink 1s linear infinite;
+        }
       `}</style>
     </section>
   );
