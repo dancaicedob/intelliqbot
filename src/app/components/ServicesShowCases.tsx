@@ -4,6 +4,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BoxIcon, Settings2Icon, SignalIcon, BotIcon } from 'lucide-react';
 import CartoonChatbotScene from '@/app/components/home/iconos/CartoonBot';
+import InventoryDashboard from './home/iconos/InventoryDashboardIcon';
+import BusinessFlow from './home/iconos/BusinessFlow';
+import MarketingFlow from './home/iconos/MarketingFlow';
 
 interface ServiceModule {
   id: string;
@@ -30,19 +33,21 @@ const services: ServiceModule[] = [
     id: 'inventario',
     title: 'Inventario Autónomo',
     description: 'Control inteligente de stock y productos.',
-    icon: <BoxIcon className="w-8 h-8 text-cyan-400" />,
+    icon: (
+      <InventoryDashboard />
+    ),
   },
   {
     id: 'automatizacion',
     title: 'Flujo Empresarial',
     description: 'Automatiza procesos internos y tareas.',
-    icon: <Settings2Icon className="w-8 h-8 text-cyan-400" />,
+    icon: <BusinessFlow />,
   },
   {
     id: 'marketing',
     title: 'Marketing Autónomo',
     description: 'Funnels y campañas automáticas con IA.',
-    icon: <SignalIcon className="w-8 h-8 text-cyan-400" />,
+    icon: <MarketingFlow />,
   },
 ];
 
