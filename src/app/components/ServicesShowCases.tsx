@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BoxIcon, Settings2Icon, SignalIcon, BotIcon } from 'lucide-react';
 import CartoonChatbotScene from '@/app/components/home/iconos/CartoonBot';
 import InventoryDashboard from './home/iconos/InventoryDashboardIcon';
 import BusinessFlow from './home/iconos/BusinessFlow';
