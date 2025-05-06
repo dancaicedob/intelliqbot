@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -33,63 +34,85 @@ const services: ServiceModule[] = [
     id: 'inventario',
     title: 'Inventario Autónomo',
     description: 'Control inteligente de stock y productos.',
-    icon: (
-      <InventoryDashboard />
-    ),
+    icon: <InventoryDashboard />,  
   },
   {
     id: 'automatizacion',
     title: 'Flujo Empresarial',
     description: 'Automatiza procesos internos y tareas.',
-    icon: <BusinessFlow />,
+    icon: <BusinessFlow />,  
   },
   {
     id: 'marketing',
     title: 'Marketing Autónomo',
     description: 'Funnels y campañas automáticas con IA.',
-    icon: <MarketingFlow />,
+    icon: <MarketingFlow />,  
   },
 ];
 
 export default function ServicesShowcase() {
   const [hovered, setHovered] = useState<string | null>(null);
 
+  const container = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.2 } },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+  };
+
   return (
-    <section className="relative z-10 py-20 px-6 md:px-20 bg-gradient-to-br from-black via-zinc-900 to-gray-950">
-      <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-16 text-left border-b-4 border-cyan-500 inline-block pb-2">
+    <section className="py-16 px-4 sm:px-8 md:px-16 lg:px-24 bg-gradient-to-br from-black via-zinc-900 to-gray-950">
+      <h2 className="text-3xl md:text-4xl font-bold text-cyan-400 mb-12 border-b-4 border-cyan-500 inline-block">
         Centro de Automatización Inteligente
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {services.map((service) => (
-          <motion.div
-            key={service.id}
-            onMouseEnter={() => setHovered(service.id)}
-            onMouseLeave={() => setHovered(null)}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="relative rounded-2xl p-6 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 border border-cyan-900 shadow-md hover:shadow-cyan-500/20 group"
-          >
-            <div className="mb-4">{service.icon}</div>
-            <h3 className="text-white text-lg font-semibold mb-2 group-hover:text-cyan-400 transition-colors">
-              {service.title}
-            </h3>
-            <p className="text-gray-400 text-sm">
-              {hovered === service.id ? service.description : ''}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="space-y-16"
+      >
+        {services.map((service, index) => {
+          const isEven = index % 2 === 0;
+          return (
+            <motion.div
+              key={service.id}
+              variants={item}
+              onMouseEnter={() => setHovered(service.id)}
+              onMouseLeave={() => setHovered(null)}
+              className="bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 border border-cyan-800 rounded-2xl shadow-md p-6 flex flex-col"
+            >
+              <h3 className="text-white text-2xl font-semibold mb-6 text-center">
+                {service.title}
+              </h3>
 
-      <div className="text-center mt-20">
+              <div className={`flex flex-col items-center gap-6 lg:gap-12 lg:flex-row ${isEven ? '' : 'lg:flex-row-reverse'}`}>
+                <div className="flex-shrink-0 flex justify-center w-full lg:w-1/2">
+                  <div className="max-w-xs w-full">{service.icon}</div>
+                </div>
+                <p className="text-gray-400 text-base leading-relaxed w-full lg:w-1/2">
+                  {service.description}
+                </p>
+              </div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+
+      <div className="text-center mt-16">
+        <p className="text-gray-300 mb-4 max-w-xl mx-auto">
+          Herramientas a tu medida, pensadas para tus necesidades y con la máxima seguridad.
+        </p>
         <motion.button
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="px-6 py-3 text-sm md:text-base font-semibold bg-cyan-500 text-black rounded-xl shadow-lg hover:bg-cyan-400 transition-colors"
+          className="px-8 py-3 text-base font-semibold bg-cyan-500 text-black rounded-xl shadow-lg hover:bg-cyan-400 transition-colors"
         >
-          Activar Automatización
+          Cotizar
         </motion.button>
       </div>
     </section>

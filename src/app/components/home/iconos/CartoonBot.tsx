@@ -34,7 +34,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
     return () => obs.disconnect();
   }, []);
 
-  // Typing animation
+  // Animación de escritura
   useEffect(() => {
     if (!visible || step >= chatSequence.length) return;
     const full = chatSequence[step].text;
@@ -62,7 +62,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
     <section
       ref={containerRef}
       id={id}
-      className="snap-start flex justify-center items-center min-h-screen px-4 md:px-0 bg-transparent"
+      className="snap-start flex justify-center items-center py-8"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -70,31 +70,30 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
       >
-        {/* Header */}
-        <div className="flex items-center px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500">
-          <div className="w-10 h-10 flex-shrink-0">{icon}</div>
-          <div className="ml-4">
-            <h2 className="text-lg font-semibold text-white leading-tight">{title}</h2>
-            <p className="text-xs text-white/90">{subtitle}</p>
+        {/* Header compacto */}
+        <div className="flex items-center px-2 py-2 bg-gradient-to-r from-cyan-500 to-blue-500">
+          <div className="w-8 h-8 flex-shrink-0">{icon}</div>
+          <div className="ml-2">
+            <h2 className="text-base font-semibold text-white leading-tight">{title}</h2>
+            <p className="text-[10px] text-white/90">{subtitle}</p>
           </div>
         </div>
 
         {/* Chat Window */}
         <div
           ref={chatRef}
-          className="h-80 md:h-96 px-4 py-3 bg-gray-50 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100"
+          className="h-80 md:h-96 bg-gray-50 overflow-y-auto"
         >
           {chatSequence.slice(0, step).map((m, i) => (
             <div
               key={i}
-              className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'} px-2 py-1`}
             >
               <div
-                className={`max-w-[80%] px-4 py-2 rounded-lg relative 
+                className={`max-w-[80%] px-2 py-1 rounded-lg 
                   ${m.from === 'user'
                     ? 'bg-blue-500 text-white rounded-tr-none'
-                    : 'bg-white text-gray-800 rounded-tl-none shadow'}`
-                }
+                    : 'bg-white text-gray-800 rounded-tl-none shadow'}`}
               >
                 {m.text}
               </div>
@@ -102,32 +101,24 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
           ))}
 
           {step < chatSequence.length && (
-            <div
-              className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+            <div className={`flex ${chatSequence[step].from === 'user' ? 'justify-end' : 'justify-start'} px-2 py-1`}>
               <div
-                className={`max-w-[80%] px-4 py-2 rounded-lg flex items-center
+                className={`max-w-[80%] px-2 py-1 rounded-lg flex items-center
                   ${chatSequence[step].from === 'user'
                     ? 'bg-blue-500 text-white rounded-tr-none'
-                    : 'bg-white text-gray-800 rounded-tl-none shadow'}`
-              }
+                    : 'bg-white text-gray-800 rounded-tl-none shadow'}`}
               >
                 <span className="break-words">{displayText}</span>
-                <span className="ml-2 w-2 h-2 bg-current rounded-full animate-blink" />
+                <span className="ml-1 w-2 h-2 bg-current rounded-full animate-blink" />
               </div>
             </div>
           )}
         </div>
       </motion.div>
 
-      {/* Cursor blink */}
       <style jsx>{`
-        @keyframes blink {
-          50% { opacity: 0; }
-        }
-        .animate-blink {
-          animation: blink 1s linear infinite;
-        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .animate-blink { animation: blink 1s linear infinite; }
       `}</style>
     </section>
   );
