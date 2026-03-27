@@ -29,13 +29,13 @@ export default function FloatingNavbar() {
   return (
     <>
       {/* Logo fijo superior izquierdo */}
-      <Link href="/" className="fixed z-50 top-4 left-4 transition-transform hover:scale-105">
+      <Link href="/" className="fixed z-50 top-3 md:top-4 left-4 transition-transform hover:scale-105">
         <Image
-          src="/images/logo-intelliqbot.png"
-          alt="Intelliqbot Logo"
-          width={180}
-          height={60}
-          className="object-contain"
+          src="/images/favicon.png"
+          alt="Intelliqbot Icon"
+          width={50}
+          height={50}
+          className="object-contain drop-shadow-lg"
           priority
         />
       </Link>

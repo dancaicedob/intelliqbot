@@ -73,6 +73,13 @@ body {
     0%,100% { opacity: 0.2; transform: scale(1); }
     50% { opacity: 0.6; transform: scale(1.2); }
   }
+  .animate-shimmer {
+    animation: shimmer 2.5s infinite linear;
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-150%) skewX(-15deg); }
+    100% { transform: translateX(150%) skewX(-15deg); }
+  }
 }
 
 
