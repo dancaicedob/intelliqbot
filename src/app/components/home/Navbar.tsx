@@ -28,6 +28,18 @@ export default function FloatingNavbar() {
 
   return (
     <>
+      {/* Logo fijo superior izquierdo */}
+      <Link href="/" className="fixed z-50 top-4 left-4 transition-transform hover:scale-105">
+        <Image
+          src="/images/logo-intelliqbot.png"
+          alt="Intelliqbot Logo"
+          width={180}
+          height={60}
+          className="object-contain"
+          priority
+        />
+      </Link>
+
       {/* Botón flotante en la esquina superior derecha */}
       <button
         onClick={toggleMenu}
@@ -68,10 +80,10 @@ export default function FloatingNavbar() {
 
           <div className="text-center">
             <Image
-              src="/images/logo-navbar.png"
+              src="/images/logo-intelliqbot.png"
               alt="Logo"
-              width={90}
-              height={90}
+              width={150}
+              height={150}
               className="mx-auto"
             />
             <p className="text-gray-400 mt-3 text-sm">Innovando con IA desde 2023.</p>
