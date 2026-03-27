@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { BotIcon } from 'lucide-react';
 import CartoonChatbotScene from '@/app/components/home/iconos/CartoonBot';
@@ -51,8 +50,6 @@ const services: ServiceModule[] = [
 ];
 
 export default function ServicesShowcase() {
-  const [hovered, setHovered] = useState<string | null>(null);
-
   const container = {
     hidden: {},
     show: { transition: { staggerChildren: 0.2 } },
@@ -82,8 +79,6 @@ export default function ServicesShowcase() {
             <motion.div
               key={service.id}
               variants={item}
-              onMouseEnter={() => setHovered(service.id)}
-              onMouseLeave={() => setHovered(null)}
               className="bg-zinc-900 hover:bg-zinc-800 transition-colors duration-300 border border-cyan-800 rounded-2xl shadow-md p-6 flex flex-col"
             >
               <h3 className="text-white text-2xl font-semibold mb-6 text-center">
