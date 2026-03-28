@@ -1,6 +1,7 @@
 'use server';
 
 import { supabase } from '@/lib/supabase';
+import { revalidatePath } from 'next/cache';
 
 export async function getSeoConfigs() {
   const { data, error } = await supabase
@@ -33,6 +34,15 @@ export async function saveSeoConfig(config: any) {
   if (error) {
     throw new Error(error.message);
   }
+  
+  // Purge the cache so changes go live instantly
+  try {
+    revalidatePath(config.route, 'layout');
+    revalidatePath(config.route, 'page');
+  } catch (e) {
+    console.warn("Could not revalidate path", e);
+  }
+
   return data;
 }
 
