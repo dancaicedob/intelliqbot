@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAvailableSlots, createAppointment } from '@/actions/appointmentActions';
 
-type Step = 'init' | 'ask_name' | 'ask_phone' | 'ask_company' | 'ask_date' | 'ask_time' | 'saving' | 'success';
+type Step = 'init' | 'ask_name' | 'ask_email' | 'ask_phone' | 'ask_company' | 'ask_date' | 'ask_time' | 'saving' | 'success';
 
 type Message = {
   id: string;
@@ -23,6 +23,7 @@ export default function ChatbotWidget() {
   // Form State
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     phone: '',
     company: '',
     date: '',
@@ -65,15 +66,23 @@ export default function ChatbotWidget() {
       addUserMessage(val);
       setFormData(prev => ({ ...prev, name: val }));
       setTimeout(() => {
-        addBotMessage(`¡Un placer ${val}! ¿A qué número de teléfono (WhatsApp) nos podemos comunicar contigo?`);
-        setStep('ask_phone');
+        addBotMessage(`¡Un placer ${val}! ¿A qué correo electrónico podemos enviarte la invitación para tu calendario (Meet)? 📧`);
+        setStep('ask_email');
       }, 500);
     } 
+    else if (step === 'ask_email') {
+      addUserMessage(val);
+      setFormData(prev => ({ ...prev, email: val }));
+      setTimeout(() => {
+        addBotMessage('¡Anotado! Ahora, ¿A qué número de teléfono (WhatsApp) nos podemos comunicar contigo? 📱');
+        setStep('ask_phone');
+      }, 500);
+    }
     else if (step === 'ask_phone') {
       addUserMessage(val);
       setFormData(prev => ({ ...prev, phone: val }));
       setTimeout(() => {
-        addBotMessage('Perfecto. ¿De qué empresa nos escribes y qué reto buscas solucionar?');
+        addBotMessage('Perfecto. ¿De qué empresa nos escribes y qué reto buscas solucionar? 🏢');
         setStep('ask_company');
       }, 500);
     }
@@ -130,7 +139,8 @@ export default function ChatbotWidget() {
         time_slot: timeStr,
         client_name: formData.name,
         client_phone: formData.phone,
-        client_email: formData.company, // Storing "empresa y reto" here as discussed
+        client_email: formData.email,
+        company: formData.company,
         status: 'booked'
       });
       

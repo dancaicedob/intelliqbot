@@ -380,8 +380,8 @@ export default function AdminPanel() {
                             <thead>
                               <tr className="border-b border-gray-800 text-gray-500 uppercase tracking-widest text-xs">
                                 <th className="pb-4 px-4 font-bold">Fecha / Hora</th>
-                                <th className="pb-4 px-4 font-bold">Cliente Identidad</th>
-                                <th className="pb-4 px-4 font-bold">Línea de Vida</th>
+                                <th className="pb-4 px-4 font-bold">Cliente e Email</th>
+                                <th className="pb-4 px-4 font-bold">Teléfono</th>
                                 <th className="pb-4 px-4 font-bold max-w-[200px]">Empresa o Reto</th>
                               </tr>
                             </thead>
@@ -391,9 +391,12 @@ export default function AdminPanel() {
                                   <td className="py-5 px-4 text-cyan-300 font-bold whitespace-nowrap">
                                     {a.date} <span className="text-cyan-500 ml-2 bg-cyan-950 px-2 py-1 rounded">[{a.time_slot}]</span>
                                   </td>
-                                  <td className="py-5 px-4 text-purple-300 font-bold group-hover:text-purple-200 transition-colors uppercase tracking-wider">{a.client_name}</td>
+                                  <td className="py-5 px-4">
+                                    <div className="text-purple-300 font-bold group-hover:text-purple-200 transition-colors uppercase tracking-wider">{a.client_name}</div>
+                                    <div className="text-xs text-gray-400 mt-1 font-mono tracking-widest">{a.client_email || 'Sin correo'}</div>
+                                  </td>
                                   <td className="py-5 px-4 text-blue-300">{a.client_phone || 'Desconocido'}</td>
-                                  <td className="py-5 px-4 text-gray-400 truncate max-w-[250px] pr-8">{a.client_email || 'Sin datos adicionales'}</td>
+                                  <td className="py-5 px-4 text-gray-400 truncate max-w-[250px] pr-8">{a.company || 'Sin datos adicionales'}</td>
                                 </tr>
                               ))}
                             </tbody>

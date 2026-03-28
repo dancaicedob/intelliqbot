@@ -34,6 +34,7 @@ export async function createAppointment(data: any) {
       client_name: data.client_name || 'Admin',
       client_email: data.client_email || '',
       client_phone: data.client_phone || '',
+      company: data.company || '',
       status: data.status || 'booked' // 'booked' or 'blocked'
     }
   ]);
@@ -41,6 +42,22 @@ export async function createAppointment(data: any) {
   if (error) {
     if (error.code === '23505') throw new Error('Este horario ya fue reservado o bloqueado recientemente.');
     throw new Error(error.message);
+  }
+  
+  if (data.status !== 'blocked' && data.client_email && data.client_email.includes('@')) {
+    try {
+      const { createCalendarEvent } = await import('@/lib/calendar');
+      await createCalendarEvent({
+        clientName: data.client_name || 'Cliente',
+        clientEmail: data.client_email,
+        clientPhone: data.client_phone || 'Sin número',
+        company: data.company || 'Sin datos de empresa',
+        date: data.date,
+        time: data.time_slot
+      });
+    } catch (e) {
+      console.error('Error lanzando integracion de Google Calendar:', e);
+    }
   }
   
   revalidatePath('/admin');
