@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Navbar from '@/app/components/home/Navbar';
 import { supabase } from '@/lib/supabase';
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css';
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({ name: '', company: '', challenge: '' });
@@ -21,6 +23,7 @@ export default function ContactoPage() {
       .insert([
         {
           name: formData.name,
+          phone: formData.phone,
           company: formData.company,
           challenge: formData.challenge,
         },
@@ -32,7 +35,7 @@ export default function ContactoPage() {
       setErrorMsg(error.message);
     } else {
       setIsSuccess(true);
-      setFormData({ name: '', company: '', challenge: '' });
+      setFormData({ name: '', phone: '', company: '', challenge: '' });
       setTimeout(() => setIsSuccess(false), 5000);
     }
   };
@@ -156,6 +159,20 @@ export default function ContactoPage() {
                     placeholder="INGRESAR CREDENCIAL..."
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
+                  />
+                </div>
+
+                <div className="group/field relative">
+                  <label className="text-gray-400 text-xs mb-2 block uppercase tracking-wider group-focus-within/field:text-cyan-400 transition-colors">
+                    <span className="text-cyan-600 mr-2">&gt;</span> Canal de Respuesta (Teléfono)
+                  </label>
+                  <PhoneInput
+                    international
+                    defaultCountry="CO"
+                    value={formData.phone}
+                    onChange={(v) => setFormData({...formData, phone: v || ''})}
+                    className="w-full bg-[#050505] border border-zinc-800 rounded-lg p-3 text-white focus-within:border-cyan-500 focus-within:ring-1 focus-within:ring-cyan-500 transition-all shadow-inner custom-phone-input"
+                    placeholder="INGRESAR NÚMERO..."
                   />
                 </div>
 

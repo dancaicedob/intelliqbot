@@ -99,9 +99,10 @@ export default function AdminPanel() {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-gray-800 text-gray-500 font-mono text-sm uppercase tracking-wider">
-                <th className="pb-4 pt-2 font-medium w-1/4">Identidad</th>
-                <th className="pb-4 pt-2 font-medium w-1/4">Empresa</th>
-                <th className="pb-4 pt-2 font-medium w-2/4">Reto Principal</th>
+                <th className="pb-4 pt-2 font-medium w-1/5">Identidad</th>
+                <th className="pb-4 pt-2 font-medium w-1/5">Teléfono</th>
+                <th className="pb-4 pt-2 font-medium w-1/5">Empresa</th>
+                <th className="pb-4 pt-2 font-medium w-2/5">Reto Principal</th>
                 <th className="pb-4 pt-2 font-medium">Fecha</th>
               </tr>
             </thead>
@@ -116,6 +117,7 @@ export default function AdminPanel() {
                 leads.map((lead) => (
                   <tr key={lead.id} className="border-b border-gray-900/50 hover:bg-white/5 transition-colors group">
                     <td className="py-6 pr-4 font-bold text-cyan-50">{lead.name}</td>
+                    <td className="py-6 pr-4 font-mono text-cyan-400">{lead.phone || 'N/A'}</td>
                     <td className="py-6 pr-4 text-purple-300 font-medium">{lead.company}</td>
                     <td className="py-6 pr-4 text-gray-400 group-hover:text-gray-200 transition-colors">{lead.challenge}</td>
                     <td className="py-6 font-mono text-xs text-gray-500 whitespace-nowrap truncate">

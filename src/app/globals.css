@@ -136,3 +136,25 @@ body {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* React Phone Number Input Overrides */
+.custom-phone-input {
+  display: flex;
+  align-items: center;
+}
+.custom-phone-input input {
+  background: transparent !important;
+  color: white !important;
+  border: none !important;
+  outline: none !important;
+  width: 100%;
+  font-family: monospace;
+}
+.custom-phone-input .PhoneInputCountry {
+  margin-right: 12px;
+  padding-left: 8px;
+}
+.custom-phone-input .PhoneInputCountrySelect {
+  background: #050505;
+  color: white;
+}
