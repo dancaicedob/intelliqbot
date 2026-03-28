@@ -80,6 +80,56 @@ body {
     0% { transform: translateX(-150%) skewX(-15deg); }
     100% { transform: translateX(150%) skewX(-15deg); }
   }
+
+  /* Neon Text Effect */
+  .neon-text {
+    text-shadow: 
+      0 0 5px rgba(0, 255, 255, 0.5),
+      0 0 10px rgba(0, 255, 255, 0.5),
+      0 0 20px rgba(0, 255, 255, 0.5),
+      0 0 40px rgba(0, 255, 255, 0.8),
+      0 0 80px rgba(0, 255, 255, 1);
+  }
+  .neon-flicker {
+    animation: flicker 3s infinite alternate;
+  }
+  @keyframes flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff; opacity: 1; }
+    20%, 24%, 55% { text-shadow: none; opacity: 0.8; }
+  }
+
+  /* Electric Border Effect */
+  .electric-border {
+    --electric-color: #0ff;
+    position: relative;
+    padding: 2px; /* space for border */
+    border-radius: 1rem;
+    overflow: hidden;
+    background: transparent;
+  }
+  .electric-border::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, transparent 0%, transparent 60%, var(--electric-color) 80%, transparent 100%);
+    animation: spin 3s linear infinite;
+    z-index: -2;
+  }
+  .electric-border::after {
+    content: "";
+    position: absolute;
+    inset: 2px; /* inside the padding */
+    background: #0a0a0a; /* dark inner background */
+    border-radius: calc(1rem - 2px);
+    z-index: -1;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 }
 
 
