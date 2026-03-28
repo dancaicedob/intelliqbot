@@ -111,7 +111,7 @@ export default function AdminPanel() {
         }
       }
     } else {
-      const action = prompt('Escribe "BLOQUEAR" para cerrar este horario, o escribe el NOMBRE del cliente para agendar una cita manual.').trim();
+      const action = prompt('Escribe "BLOQUEAR" para cerrar este horario, o escribe el NOMBRE del cliente para agendar una cita manual.')?.trim();
       if (!action) return;
       const status = action.toUpperCase() === 'BLOQUEAR' ? 'blocked' : 'booked';
       const name = status === 'blocked' ? 'Bloqueo Admin' : action;
