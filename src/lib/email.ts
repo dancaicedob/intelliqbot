@@ -20,7 +20,7 @@ export async function sendAppointmentConfirmation({
   const link = meetLink || process.env.MEET_LINK || 'https://meet.google.com/tu-sala';
 
   const { data, error } = await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+    from: process.env.RESEND_FROM_EMAIL ?? 'onboarding@resend.dev',
     to: [clientEmail],
     subject: `✅ Cita confirmada — ${prettyDate} a las ${time}`,
     html: `

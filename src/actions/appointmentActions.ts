@@ -47,15 +47,20 @@ export async function createAppointment(data: any) {
   if (data.status !== 'blocked' && data.client_email && data.client_email.includes('@')) {
     try {
       const { sendAppointmentConfirmation } = await import('@/lib/email');
+      console.log('[Resend] Enviando a:', data.client_email);
       await sendAppointmentConfirmation({
         clientName: data.client_name || 'Cliente',
         clientEmail: data.client_email,
         date: data.date,
         time: data.time_slot,
       });
-    } catch (e) {
-      console.error('Error enviando correo con Resend:', e);
+      console.log('[Resend] ✅ Correo enviado OK');
+    } catch (e: any) {
+      console.error('[Resend] ❌ ERROR:', e?.message ?? e);
+      // No lanzamos el error para no bloquear el guardado de la cita
     }
+  } else {
+    console.log('[Resend] Omitiendo correo. Status:', data.status, 'Email:', data.client_email);
   }
   
   revalidatePath('/admin');
