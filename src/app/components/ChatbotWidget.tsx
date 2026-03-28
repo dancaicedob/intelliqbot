@@ -145,24 +145,57 @@ export default function ChatbotWidget() {
     }
   };
 
+  const generateNextDays = () => {
+    const days = [];
+    const today = new Date();
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + i);
+      if (d.getDay() !== 0) { // Skip Sundays
+        days.push(d);
+      }
+    }
+    return days;
+  };
+
+  const formatIsoLocal = (date: Date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const dStr = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${dStr}`;
+  };
+
   return (
     <>
       <div className="fixed bottom-6 right-6 z-[9999]">
         <AnimatePresence>
           {!isOpen && (
-            <motion.button
+            <motion.div className="relative flex items-center justify-end"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              onClick={() => setIsOpen(true)}
-              className="w-16 h-16 rounded-full electric-border flex items-center justify-center bg-[#0a0a0a] hover:bg-black group shadow-[0_0_30px_rgba(0,255,255,0.3)] hover:shadow-[0_0_50px_rgba(0,255,255,0.6)] transition-all cursor-pointer"
-              style={{ '--electric-color': '#06b6d4' } as React.CSSProperties}
             >
-              <div className="w-8 h-8 rounded-full border border-cyan-400 p-1 flex items-center justify-center group-hover:bg-cyan-900/40 relative">
-                <span className="w-2 h-2 rounded-full border border-cyan-200 animate-ping absolute" />
-                <span className="w-1 h-1 rounded-full bg-cyan-300" />
-              </div>
-            </motion.button>
+              <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.5, duration: 0.5 }}
+                className="absolute right-[80px] bg-cyan-950 border border-cyan-500/50 text-cyan-50 px-4 py-2 rounded-xl text-sm font-bold shadow-[0_0_15px_rgba(6,182,212,0.4)] whitespace-nowrap hidden sm:flex items-center pointer-events-none"
+              >
+                ¿Agendamos una Cita? ✨
+                <div className="absolute top-1/2 -right-1.5 transform -translate-y-1/2 w-3 h-3 bg-cyan-950 border-t border-r border-cyan-500/50 rotate-45"></div>
+              </motion.div>
+              
+              <button
+                onClick={() => setIsOpen(true)}
+                className="w-16 h-16 rounded-full electric-border flex items-center justify-center bg-[#0a0a0a] hover:bg-black group shadow-[0_0_30px_rgba(0,255,255,0.3)] hover:shadow-[0_0_50px_rgba(0,255,255,0.6)] transition-all cursor-pointer"
+                style={{ '--electric-color': '#06b6d4' } as React.CSSProperties}
+              >
+                <div className="w-8 h-8 rounded-full border border-cyan-400 p-1 flex items-center justify-center group-hover:bg-cyan-900/40 relative">
+                  <span className="w-2 h-2 rounded-full border border-cyan-200 animate-ping absolute" />
+                  <span className="w-1 h-1 rounded-full bg-cyan-300" />
+                </div>
+              </button>
+            </motion.div>
           )}
 
           {isOpen && (
@@ -216,14 +249,20 @@ export default function ChatbotWidget() {
                     
                     {/* Render Date Picker */}
                     {msg.sender === 'bot' && msg.type === 'date' && step === 'ask_date' && i === messages.length - 1 && (
-                      <motion.div initial={{ opacity:0, scale:0.9 }} animate={{opacity:1, scale:1}} className="mt-2 w-full">
-                        <input 
-                          type="date" 
-                          min={new Date().toISOString().split('T')[0]}
-                          onChange={(e) => handleDateSelection(e.target.value)}
-                          className="w-full bg-black border border-cyan-500/50 rounded-xl p-3 text-cyan-300 focus:outline-none cursor-pointer"
-                          style={{ colorScheme: 'dark' }}
-                        />
+                      <motion.div initial={{ opacity:0, y:10 }} animate={{opacity:1, y:0}} className="mt-3 flex overflow-x-auto gap-2 pb-2 custom-scrollbar w-full">
+                        {generateNextDays().map(d => {
+                          const dateStr = formatIsoLocal(d);
+                          const displayStr = d.toLocaleDateString('es-CO', { weekday: 'short', day: 'numeric', month: 'short' });
+                          return (
+                            <button 
+                              key={dateStr}
+                              onClick={() => handleDateSelection(dateStr)}
+                              className="min-w-[100px] flex-shrink-0 bg-black border border-cyan-900/50 hover:bg-cyan-900/40 hover:border-cyan-400 text-cyan-300 text-xs py-3 px-2 rounded-xl transition-all capitalize whitespace-nowrap"
+                            >
+                              {displayStr}
+                            </button>
+                          );
+                        })}
                       </motion.div>
                     )}
 

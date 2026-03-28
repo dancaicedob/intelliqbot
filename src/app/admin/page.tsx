@@ -363,8 +363,46 @@ export default function AdminPanel() {
                       })}
                     </div>
                   </div>
-
                 </div>
+
+                <div className="mt-8 bg-black border border-gray-800 rounded-2xl p-6">
+                    <h3 className="font-bold text-lg text-purple-400 mb-6 font-mono tracking-widest uppercase">Próximas Citas Agendadas Global</h3>
+                    {(() => {
+                      const upcoming = appointments
+                        .filter(a => a.status === 'booked' && a.date >= new Date().toISOString().split('T')[0])
+                        .sort((a, b) => a.date.localeCompare(b.date) || a.time_slot.localeCompare(b.time_slot));
+                        
+                      if (upcoming.length === 0) return <p className="text-gray-500 text-sm font-mono">No hay citas agendadas en el futuro.</p>;
+                      
+                      return (
+                        <div className="overflow-x-auto custom-scrollbar pb-4">
+                          <table className="w-full text-left font-mono text-sm border-collapse">
+                            <thead>
+                              <tr className="border-b border-gray-800 text-gray-500 uppercase tracking-widest text-xs">
+                                <th className="pb-4 px-4 font-bold">Fecha / Hora</th>
+                                <th className="pb-4 px-4 font-bold">Cliente Identidad</th>
+                                <th className="pb-4 px-4 font-bold">Línea de Vida</th>
+                                <th className="pb-4 px-4 font-bold max-w-[200px]">Empresa o Reto</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {upcoming.map(a => (
+                                <tr key={a.id} onClick={() => setSelectedDate(a.date)} className="border-b border-gray-900/50 hover:bg-white/5 cursor-pointer transition-colors group">
+                                  <td className="py-5 px-4 text-cyan-300 font-bold whitespace-nowrap">
+                                    {a.date} <span className="text-cyan-500 ml-2 bg-cyan-950 px-2 py-1 rounded">[{a.time_slot}]</span>
+                                  </td>
+                                  <td className="py-5 px-4 text-purple-300 font-bold group-hover:text-purple-200 transition-colors uppercase tracking-wider">{a.client_name}</td>
+                                  <td className="py-5 px-4 text-blue-300">{a.client_phone || 'Desconocido'}</td>
+                                  <td className="py-5 px-4 text-gray-400 truncate max-w-[250px] pr-8">{a.client_email || 'Sin datos adicionales'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
               </motion.div>
             )}
 
