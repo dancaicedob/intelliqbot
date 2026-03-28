@@ -27,8 +27,21 @@ export default function AdminPanel() {
     try {
       const data = await getLeads(password);
       setLeads(data);
-      const seoData = await getSeoConfigs();
-      setSeoList(seoData || []);
+      
+      const seoData = await getSeoConfigs() || [];
+      
+      // Inject known existing pages by default
+      const defaultRoutes = ['/', '/nosotros', '/contacto'];
+      const mergedList = defaultRoutes.map(route => {
+        const found = seoData.find((r: any) => r.route === route);
+        return found || { route, title: 'Sin configurar', description: '', robots: 'index, follow', canonical: '', keywords: '' };
+      });
+      
+      seoData.forEach((r: any) => {
+        if (!defaultRoutes.includes(r.route)) mergedList.push(r);
+      });
+
+      setSeoList(mergedList);
       setIsAuthenticated(true);
     } catch (err: any) {
       setError(err.message);
