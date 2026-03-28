@@ -5,6 +5,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import Script from 'next/script';
 import { getDynamicSeo } from '@/lib/seo';
 import { getGlobalScripts } from '@/actions/seoActions';
+import ChatbotWidget from '@/app/components/ChatbotWidget';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,8 @@ export default async function RootLayout({
             `}
           </Script>
         )}
+        
+        <ChatbotWidget />
       </body>
     </html>
   );

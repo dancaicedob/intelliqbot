@@ -3,16 +3,21 @@
 import { useState } from 'react';
 import { getLeads } from '@/actions/getLeads';
 import { getSeoConfigs, saveSeoConfig, deleteSeoConfig, getGlobalScripts, saveGlobalScripts } from '@/actions/seoActions';
+import { getAppointments, createAppointment, deleteAppointment } from '@/actions/appointmentActions';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AdminPanel() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'>('mensajes');
+  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'|'citas'>('mensajes');
   
   const [leads, setLeads] = useState<any[]>([]);
   const [seoList, setSeoList] = useState<any[]>([]);
   const [globalScripts, setGlobalScripts] = useState({ gtm_id: '', gsc_id: '', pixel_id: '' });
+  const [appointments, setAppointments] = useState<any[]>([]);
+  
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +36,6 @@ export default function AdminPanel() {
       
       const seoData = await getSeoConfigs() || [];
       
-      // Inject known existing pages by default
       const defaultRoutes = ['/', '/nosotros', '/contacto'];
       const mergedList = defaultRoutes.map(route => {
         const found = seoData.find((r: any) => r.route === route);
@@ -46,6 +50,9 @@ export default function AdminPanel() {
 
       const scriptsData = await getGlobalScripts();
       if (scriptsData) setGlobalScripts(scriptsData);
+      
+      const appts = await getAppointments();
+      if (appts) setAppointments(appts);
 
       setIsAuthenticated(true);
     } catch (err: any) {
@@ -82,6 +89,52 @@ export default function AdminPanel() {
     } catch (err: any) {
       alert('Error eliminando: ' + err.message);
     }
+  };
+
+  // APPOINTMENTS GENERATOR
+  const morningSlots = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+  const afternoonSlots = ['14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'];
+  const allSlots = [...morningSlots, ...afternoonSlots];
+  
+  const selectedDateAppointments = appointments.filter(a => a.date === selectedDate);
+
+  const handleSlotAction = async (slot: string, existingAppt?: any) => {
+    if (existingAppt) {
+      const isBlocked = existingAppt.status === 'blocked';
+      const msg = isBlocked ? '¿Desbloquear este horario para que vuelva a estar disponible?' : `¿Cancelar esta cita de ${existingAppt.client_name}? Se liberará el espacio.`;
+      if (confirm(msg)) {
+        try {
+          await deleteAppointment(existingAppt.id);
+          setAppointments(prev => prev.filter(a => a.id !== existingAppt.id));
+        } catch (err:any) {
+          alert('Error cancelando cita: ' + err.message);
+        }
+      }
+    } else {
+      const action = prompt('Escribe "BLOQUEAR" para cerrar este horario, o escribe el NOMBRE del cliente para agendar una cita manual.').trim();
+      if (!action) return;
+      const status = action.toUpperCase() === 'BLOQUEAR' ? 'blocked' : 'booked';
+      const name = status === 'blocked' ? 'Bloqueo Admin' : action;
+      
+      try {
+        await createAppointment({
+          date: selectedDate,
+          time_slot: slot,
+          client_name: name,
+          status
+        });
+        const appts = await getAppointments(); // Refresh to get proper ID and sorting
+        setAppointments(appts || []);
+      } catch(err:any) {
+        alert(err.message);
+      }
+    }
+  };
+
+  const changeDateByDay = (days: number) => {
+    const d = new Date(selectedDate);
+    d.setUTCDate(d.getUTCDate() + days); // use UTC to avoid timezone shift on purely date strings
+    setSelectedDate(d.toISOString().split('T')[0]);
   };
 
   if (!isAuthenticated) {
@@ -140,24 +193,30 @@ export default function AdminPanel() {
             </h1>
           </div>
           
-          <div className="flex bg-black/50 border border-gray-800 rounded-lg overflow-hidden">
+          <div className="flex bg-black/50 border border-gray-800 rounded-lg overflow-hidden flex-wrap">
             <button 
               onClick={() => setActiveTab('mensajes')}
-              className={`px-6 py-3 font-mono text-sm uppercase tracking-wide transition-colors ${activeTab === 'mensajes' ? 'bg-cyan-950/60 text-cyan-300 border-b-2 border-cyan-400' : 'text-gray-500 hover:bg-white/5'}`}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'mensajes' ? 'bg-cyan-950/60 text-cyan-300 border-b-2 border-cyan-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
               Leads
             </button>
             <button 
-              onClick={() => setActiveTab('seo')}
-              className={`px-6 py-3 font-mono text-sm uppercase tracking-wide transition-colors ${activeTab === 'seo' ? 'bg-purple-950/60 text-purple-300 border-b-2 border-purple-400' : 'text-gray-500 hover:bg-white/5'}`}
+              onClick={() => setActiveTab('citas')}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'citas' ? 'bg-blue-950/60 text-blue-300 border-b-2 border-blue-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
-              SEO / Metadata
+              Citas
+            </button>
+            <button 
+              onClick={() => setActiveTab('seo')}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'seo' ? 'bg-purple-950/60 text-purple-300 border-b-2 border-purple-400' : 'text-gray-500 hover:bg-white/5'}`}
+            >
+              SEO / Meta
             </button>
             <button 
               onClick={() => setActiveTab('integraciones')}
-              className={`px-6 py-3 font-mono text-sm uppercase tracking-wide transition-colors ${activeTab === 'integraciones' ? 'bg-orange-950/60 text-orange-300 border-b-2 border-orange-400' : 'text-gray-500 hover:bg-white/5'}`}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'integraciones' ? 'bg-orange-950/60 text-orange-300 border-b-2 border-orange-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
-              Integraciones
+              Marketing
             </button>
           </div>
         </header>
@@ -205,6 +264,107 @@ export default function AdminPanel() {
                     )}
                   </tbody>
                 </table>
+              </motion.div>
+            )}
+
+            {activeTab === 'citas' && (
+              <motion.div 
+                key="citas"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="h-full bg-[#0a0a0a] border border-gray-800/50 rounded-2xl p-6 overflow-auto custom-scrollbar flex flex-col"
+              >
+                <div className="flex flex-col md:flex-row gap-8 h-full">
+                  
+                  {/* Left Calendar Picker */}
+                  <div className="w-full md:w-1/3 flex flex-col gap-6">
+                    <div className="bg-black border border-gray-800 rounded-2xl p-6">
+                      <h3 className="font-bold text-lg text-blue-400 mb-6 font-mono tracking-widest uppercase">Seleccionar Fecha</h3>
+                      
+                      <div className="flex justify-between items-center bg-[#050505] border border-gray-800 p-2 rounded-xl">
+                        <button onClick={() => changeDateByDay(-1)} className="w-10 h-10 flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">&lt;</button>
+                        <input
+                          type="date"
+                          value={selectedDate}
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                          className="bg-transparent text-lg font-bold text-center outline-none text-white appearance-none"
+                          style={{ colorScheme: 'dark' }}
+                        />
+                        <button onClick={() => changeDateByDay(1)} className="w-10 h-10 flex items-center justify-center text-gray-400 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">&gt;</button>
+                      </div>
+                      
+                      <button onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])} className="w-full mt-4 py-3 bg-blue-900/20 text-blue-400 border border-blue-500/30 rounded-xl font-mono text-sm uppercase tracking-widest hover:bg-blue-900/40 transition-colors">
+                        Volver a Hoy
+                      </button>
+
+                      <div className="mt-8 pt-6 border-t border-gray-800">
+                        <p className="text-xs text-gray-500 font-mono mb-3 uppercase tracking-widest">Leyenda Global</p>
+                        <div className="flex flex-col gap-2 font-mono text-xs">
+                          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-green-500/20 border border-green-500/50 rounded-sm"></div> <span className="text-gray-400">Disponible</span></div>
+                          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-purple-500/20 border border-purple-500/50 rounded-sm"></div> <span className="text-gray-400">Cita Agendada</span></div>
+                          <div className="flex items-center gap-2"><div className="w-3 h-3 bg-gray-800 border border-gray-700 rounded-sm"></div> <span className="text-gray-400">Bloqueado (No disponible)</span></div>
+                        </div>
+                        <p className="mt-4 text-xs text-blue-400/80 font-mono">Los intervalos están basados en Hora estándar de Colombia (UTC-5).</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Slots Grid */}
+                  <div className="w-full md:w-2/3 bg-black border border-gray-800 rounded-2xl p-6 overflow-auto custom-scrollbar">
+                    <h3 className="font-bold text-xl text-white mb-6">Bloques Operativos para <span className="text-blue-400">{selectedDate}</span></h3>
+                    
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                      {allSlots.map((slot) => {
+                        const appt = selectedDateAppointments.find(a => a.time_slot === slot);
+                        
+                        if (!appt) {
+                          // Available slot
+                          return (
+                            <div 
+                              key={slot} 
+                              onClick={() => handleSlotAction(slot)}
+                              className="group cursor-pointer bg-green-950/10 border border-green-500/30 hover:border-green-400 hover:bg-green-900/30 rounded-xl p-4 transition-all flex flex-col items-center justify-center text-center h-28 shadow-inner relative overflow-hidden"
+                            >
+                              <div className="text-2xl font-black text-green-400 drop-shadow-[0_0_8px_rgba(34,197,94,0.4)]">{slot}</div>
+                              <div className="text-xs font-mono text-green-500/70 uppercase mt-2 group-hover:hidden tracking-widest">Disponible</div>
+                              <div className="text-xs font-mono text-green-300 uppercase mt-2 hidden group-hover:block tracking-widest">Agendar/Bloquear</div>
+                            </div>
+                          );
+                        }
+                        
+                        if (appt.status === 'blocked') {
+                          // Blocked slot
+                          return (
+                            <div 
+                              key={slot} 
+                              onClick={() => handleSlotAction(slot, appt)}
+                              className="group cursor-pointer bg-gray-900 border border-gray-800 hover:border-gray-600 hover:bg-gray-800 rounded-xl p-4 transition-all flex flex-col items-center justify-center text-center h-28 shadow-inner"
+                            >
+                              <div className="text-xl font-bold text-gray-500 line-through decoration-gray-600">{slot}</div>
+                              <div className="text-xs font-mono text-gray-600 uppercase mt-2 tracking-widest">Bloqueado</div>
+                            </div>
+                          );
+                        }
+
+                        // Booked slot
+                        return (
+                          <div 
+                            key={slot} 
+                            onClick={() => handleSlotAction(slot, appt)}
+                            className="group cursor-pointer bg-purple-900/20 border border-purple-500/50 hover:bg-purple-900/40 rounded-xl p-4 transition-all flex flex-col items-center justify-center text-center h-28 shadow-[0_0_15px_rgba(168,85,247,0.15)] relative overflow-hidden"
+                          >
+                            <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-purple-400 animate-pulse"></div>
+                            <div className="text-xl font-black text-purple-300">{slot}</div>
+                            <div className="text-xs font-mono text-purple-400 uppercase mt-1 tracking-wider truncate w-full px-2">{appt.client_name}</div>
+                            {appt.client_phone && <div className="text-[10px] font-mono text-gray-400 mt-1">{appt.client_phone}</div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                </div>
               </motion.div>
             )}
 
