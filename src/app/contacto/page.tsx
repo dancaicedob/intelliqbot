@@ -8,7 +8,7 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 
 export default function ContactoPage() {
-  const [formData, setFormData] = useState({ name: '', company: '', challenge: '' });
+  const [formData, setFormData] = useState({ name: '', phone: '', company: '', challenge: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { getDynamicSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   title: 'Nosotros | Intelliqbot - Potenciamos empresas con IA',
   description: 'Conoce Intelliqbot. Nacimos de la frustración para convertirnos en pioneros de la automatización inteligente. Sistemas de ventas, procesos y más.',
   openGraph: {
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
     description: 'La automatización no es el futuro, es el presente. Descubre cómo potenciamos empresas con inteligencia artificial.',
   }
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getDynamicSeo('/nosotros', baseMetadata);
+}
 
 export default function NosotrosLayout({
   children,

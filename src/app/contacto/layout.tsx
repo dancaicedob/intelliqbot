@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
+import { getDynamicSeo } from '@/lib/seo';
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   title: 'Contacto | Intelliqbot - Inicia tu transformación',
   description: 'Conéctate con Intelliqbot. Agenda una auditoría de sistema, escríbenos a intelliqbot@gmail.com o contáctanos por WhatsApp al +57 3176285563.',
   openGraph: {
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
     description: 'Inicia el protocolo de automatización. Conecta con nuestro núcleo operativo hoy mismo.',
   }
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getDynamicSeo('/contacto', baseMetadata);
+}
 
 export default function ContactoLayout({
   children,
