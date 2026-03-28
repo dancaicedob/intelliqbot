@@ -46,17 +46,15 @@ export async function createAppointment(data: any) {
   
   if (data.status !== 'blocked' && data.client_email && data.client_email.includes('@')) {
     try {
-      const { createCalendarEvent } = await import('@/lib/calendar');
-      await createCalendarEvent({
+      const { sendAppointmentConfirmation } = await import('@/lib/email');
+      await sendAppointmentConfirmation({
         clientName: data.client_name || 'Cliente',
         clientEmail: data.client_email,
-        clientPhone: data.client_phone || 'Sin número',
-        company: data.company || 'Sin datos de empresa',
         date: data.date,
-        time: data.time_slot
+        time: data.time_slot,
       });
     } catch (e) {
-      console.error('Error lanzando integracion de Google Calendar:', e);
+      console.error('Error enviando correo con Resend:', e);
     }
   }
   

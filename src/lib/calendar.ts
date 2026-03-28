@@ -48,9 +48,12 @@ export async function createCalendarEvent({
   const format2 = (n: number) => n.toString().padStart(2, '0');
   const endDateTimeStr = `${date}T${format2(finalEndHour)}:${format2(finalEndMin)}:00-05:00`;
 
+  const meetLink = process.env.MEET_LINK || 'https://meet.google.com/tu-enlace-unico';
+
   const event = {
     summary: `Sesión Estratégica: ${clientName} - Intelliqbot`,
-    description: `**Razón / Reto:** ${company}\n**Teléfono:** ${clientPhone}\n\nAgendado automáticamente vía Nova Asistente Virtual.`,
+    location: meetLink,
+    description: `**Razón / Reto:** ${company}\n**Teléfono:** ${clientPhone}\n\n**Enlace de Sesión:** ${meetLink}\n\nAgendado automáticamente vía Nova Asistente Virtual.`,
     start: {
       dateTime: startDateTimeStr,
       timeZone: 'America/Bogota',
@@ -69,26 +72,19 @@ export async function createCalendarEvent({
         { method: 'popup', minutes: 15 },
       ],
     },
-    conferenceData: {
-      createRequest: {
-        requestId: `intelliqbot-${Date.now()}`,
-        conferenceSolutionKey: { type: 'hangoutsMeet' },
-      },
-    },
   };
 
   try {
     const response = await calendar.events.insert({
       calendarId: calendarId,
       requestBody: event,
-      conferenceDataVersion: 1, // Requerido para crear Google Meet
       sendUpdates: 'all',       // Requerido para enviar invitación al correo nativamente
     });
     
     console.log('Cita en Google Calendar exitosa:', response.data.htmlLink);
     return response.data;
-  } catch (error) {
-    console.error('Error insertando en Google Calendar:', error);
+  } catch (error: any) {
+    console.error('Error insertando en Google Calendar:', error.response?.data || error);
     throw error;
   }
 }

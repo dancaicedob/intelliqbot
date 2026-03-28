@@ -1,84 +1,131 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-export async function sendAppointmentEmail({ 
-  clientName, 
-  clientEmail, 
-  date, 
-  time 
-}: { 
-  clientName: string; 
-  clientEmail: string; 
-  date: string; 
-  time: string; 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendAppointmentConfirmation({
+  clientName,
+  clientEmail,
+  date,
+  time,
+  meetLink,
+}: {
+  clientName: string;
+  clientEmail: string;
+  date: string;
+  time: string;
+  meetLink?: string;
 }) {
-  // Configuración del correo saliente (Gmail SMTP recomendado)
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS, // Contraseña de App de Gmail
-    },
-  });
-
-  const meetLink = process.env.MEET_LINK || 'https://meet.google.com/tu-enlace-unico';
-
-  // Formateo de fecha de AAAA-MM-DD a DD/MM/AAAA
   const [yy, mm, dd] = date.split('-');
   const prettyDate = `${dd}/${mm}/${yy}`;
+  const link = meetLink || process.env.MEET_LINK || 'https://meet.google.com/tu-sala';
 
-  const htmlContent = `
-    <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eaeaea; border-radius: 10px; overflow: hidden;">
-      <div style="background-color: #000; padding: 20px; text-align: center;">
-        <h1 style="color: #06b6d4; margin: 0;">Intelliqbot</h1>
-        <p style="color: #888; margin: 5px 0 0 0; font-size: 14px;">Sistemas de Inteligencia Artificial</p>
-      </div>
-      <div style="padding: 30px;">
-        <h2 style="color: #333;">¡Reserva Confirmada, ${clientName}! 🎉</h2>
-        <p style="font-size: 16px; line-height: 1.5;">
-          Hemos apartado exitosamente un espacio en nuestra agenda para conversar sobre tus retos comerciales y cómo la inteligencia artificial puede escalar tu empresa.
-        </p>
-        
-        <div style="background-color: #f7f9fc; border-left: 4px solid #06b6d4; padding: 15px; margin: 25px 0;">
-          <p style="margin: 0 0 10px 0;"><strong>📅 Fecha:</strong> ${prettyDate}</p>
-          <p style="margin: 0 0 10px 0;"><strong>⏰ Hora:</strong> ${time} (Hora Colombia)</p>
-          <p style="margin: 0;"><strong>🔗 Enlace de la Sesión:</strong> <a href="${meetLink}" style="color: #06b6d4; text-decoration: none;">Unirse a Google Meet</a></p>
-        </div>
+  const { data, error } = await resend.emails.send({
+    from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
+    to: [clientEmail],
+    subject: `✅ Cita confirmada — ${prettyDate} a las ${time}`,
+    html: `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmación de Cita</title>
+</head>
+<body style="margin:0;padding:0;background-color:#050505;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#050505;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#0a0a0a;border:1px solid #1a1a2e;border-radius:16px;overflow:hidden;">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#06b6d4,#7c3aed);padding:40px 40px 30px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:900;letter-spacing:2px;">INTELLIQBOT</h1>
+              <p style="margin:8px 0 0;color:rgba(255,255,255,0.7);font-size:12px;letter-spacing:4px;text-transform:uppercase;">Sistemas de Inteligencia Artificial</p>
+            </td>
+          </tr>
 
-        <p style="font-size: 14px; color: #666;">
-          Recomendaciones:
-          <ul style="font-size: 14px; color: #666; padding-left: 20px;">
-            <li>Conéctate 5 minutos antes para revisar tu audio.</li>
-            <li>Si prefieres, puedes asistir con alguien más de tu equipo estratégico.</li>
-            <li>Si necesitas reprogramar, por favor avísanos con anticipación.</li>
-          </ul>
-        </p>
-        
-        <div style="text-align: center; margin-top: 30px;">
-          <a href="${meetLink}" style="background-color: #06b6d4; color: #fff; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-            Ir a la Reunión
-          </a>
-        </div>
-      </div>
-      <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #999;">
-        Este es un correo automático. Por favor no respondas a este mensaje.<br>
-        © ${new Date().getFullYear()} Intelliqbot. Todos los derechos reservados.
-      </div>
-    </div>
-  `;
+          <!-- Body -->
+          <tr>
+            <td style="padding:40px;">
+              <h2 style="margin:0 0 8px;color:#06b6d4;font-size:22px;">¡Sesión Confirmada, ${clientName}! 🎉</h2>
+              <p style="margin:0 0 30px;color:#9ca3af;font-size:15px;line-height:1.6;">
+                Hemos reservado tu espacio en nuestra agenda estratégica. Estamos listos para mostrarte cómo la Inteligencia Artificial puede transformar tu negocio.
+              </p>
 
-  const mailOptions = {
-    from: `"Intelliqbot Asesoría" <${process.env.SMTP_USER}>`,
-    to: clientEmail,
-    subject: `Confirmación de Sesión con Intelliqbot - ${prettyDate} a las ${time}`,
-    html: htmlContent,
-  };
+              <!-- Appointment Card -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#111827;border:1px solid #1f2937;border-radius:12px;margin-bottom:30px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding:10px 0;border-bottom:1px solid #1f2937;">
+                          <span style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:1px;">📅 Fecha</span><br/>
+                          <span style="color:#f9fafb;font-size:18px;font-weight:700;margin-top:4px;display:block;">${prettyDate}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:10px 0;border-bottom:1px solid #1f2937;">
+                          <span style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:1px;">⏰ Hora</span><br/>
+                          <span style="color:#f9fafb;font-size:18px;font-weight:700;margin-top:4px;display:block;">${time} (Hora Colombia)</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:10px 0;">
+                          <span style="color:#6b7280;font-size:12px;text-transform:uppercase;letter-spacing:1px;">🎥 Plataforma</span><br/>
+                          <span style="color:#06b6d4;font-size:16px;font-weight:700;margin-top:4px;display:block;">Google Meet</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('Correo de confirmación enviado a:', clientEmail);
-    return true;
-  } catch (error) {
-    console.error('Error al enviar el correo:', error);
-    return false;
+              <!-- CTA Button -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
+                <tr>
+                  <td align="center">
+                    <a href="${link}" target="_blank"
+                      style="display:inline-block;background:linear-gradient(135deg,#06b6d4,#7c3aed);color:#ffffff;text-decoration:none;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:700;letter-spacing:1px;">
+                      Unirse a Google Meet →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Tips -->
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#111827;border:1px solid #1f2937;border-radius:12px;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:20px;">
+                    <p style="margin:0 0 12px;color:#9ca3af;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Recomendaciones</p>
+                    <ul style="margin:0;padding-left:16px;color:#6b7280;font-size:14px;line-height:2;">
+                      <li>Conéctate 5 minutos antes y revisa tu audio/cámara.</li>
+                      <li>Puedes traer a un colega de tu equipo.</li>
+                      <li>Si necesitas reprogramar, contáctanos con anticipación.</li>
+                    </ul>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0;color:#4b5563;font-size:13px;text-align:center;">
+                Este es un correo automático. Intelliqbot © ${new Date().getFullYear()}
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`,
+  });
+
+  if (error) {
+    console.error('Resend error:', error);
+    throw new Error(error.message);
   }
+
+  console.log('Correo enviado con Resend, ID:', data?.id);
+  return data;
 }
