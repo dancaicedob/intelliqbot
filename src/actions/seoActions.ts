@@ -55,3 +55,30 @@ export async function deleteSeoConfig(id: string) {
   if (error) throw new Error(error.message);
   return true;
 }
+
+export async function getGlobalScripts() {
+  const { data, error } = await supabase
+    .from('global_scripts')
+    .select('*')
+    .eq('id', 1)
+    .single();
+
+  return data || { gtm_id: '', gsc_id: '', pixel_id: '' };
+}
+
+export async function saveGlobalScripts(scripts: any) {
+  const { data, error } = await supabase
+    .from('global_scripts')
+    .upsert({ id: 1, ...scripts })
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+
+  try {
+    revalidatePath('/', 'layout');
+  } catch (e) {
+    console.warn("Could not revalidate path", e);
+  }
+  return data;
+}

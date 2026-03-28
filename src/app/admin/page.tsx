@@ -2,16 +2,17 @@
 
 import { useState } from 'react';
 import { getLeads } from '@/actions/getLeads';
-import { getSeoConfigs, saveSeoConfig, deleteSeoConfig } from '@/actions/seoActions';
+import { getSeoConfigs, saveSeoConfig, deleteSeoConfig, getGlobalScripts, saveGlobalScripts } from '@/actions/seoActions';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AdminPanel() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'>('mensajes');
+  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'>('mensajes');
   
   const [leads, setLeads] = useState<any[]>([]);
   const [seoList, setSeoList] = useState<any[]>([]);
+  const [globalScripts, setGlobalScripts] = useState({ gtm_id: '', gsc_id: '', pixel_id: '' });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +43,10 @@ export default function AdminPanel() {
       });
 
       setSeoList(mergedList);
+
+      const scriptsData = await getGlobalScripts();
+      if (scriptsData) setGlobalScripts(scriptsData);
+
       setIsAuthenticated(true);
     } catch (err: any) {
       setError(err.message);
@@ -147,6 +152,12 @@ export default function AdminPanel() {
               className={`px-6 py-3 font-mono text-sm uppercase tracking-wide transition-colors ${activeTab === 'seo' ? 'bg-purple-950/60 text-purple-300 border-b-2 border-purple-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
               SEO / Metadata
+            </button>
+            <button 
+              onClick={() => setActiveTab('integraciones')}
+              className={`px-6 py-3 font-mono text-sm uppercase tracking-wide transition-colors ${activeTab === 'integraciones' ? 'bg-orange-950/60 text-orange-300 border-b-2 border-orange-400' : 'text-gray-500 hover:bg-white/5'}`}
+            >
+              Integraciones
             </button>
           </div>
         </header>
@@ -282,6 +293,71 @@ export default function AdminPanel() {
                   )}
                 </div>
 
+              </motion.div>
+            )}
+
+            {activeTab === 'integraciones' && (
+              <motion.div 
+                key="integraciones"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="h-full bg-[#0a0a0a] border border-gray-800/50 rounded-2xl p-8 max-w-4xl mx-auto overflow-auto custom-scrollbar"
+              >
+                <div className="mb-8 border-b border-gray-800 pb-6">
+                  <h3 className="font-bold text-2xl text-orange-400">Marketing & Analytics</h3>
+                  <p className="text-gray-400 mt-2">Configura de manera segura el SEO avanzado y los píxeles de rastreo sin tocar código. El ID de Google Search ignora el sufijo HTML automáticamente usando Metadata avanzada de Next.js.</p>
+                </div>
+
+                <form className="flex flex-col gap-8" onSubmit={async (e) => { e.preventDefault(); try { await saveGlobalScripts(globalScripts); alert('Integraciones actualizadas con éxito. Vercel purgando caché...'); } catch(err:any) { alert(err.message); } }}>
+                  <div className="flex flex-col gap-3 group">
+                    <label className="text-sm font-bold text-gray-300 group-focus-within:text-orange-400 transition-colors uppercase tracking-widest">
+                      Google Tag Manager (GTM)
+                    </label>
+                    <p className="text-xs text-gray-500 font-mono">Ejemplo: GTM-ABCDEFGH</p>
+                    <input 
+                      type="text" 
+                      value={globalScripts.gtm_id || ''} 
+                      onChange={e => setGlobalScripts({...globalScripts, gtm_id: e.target.value})} 
+                      className="bg-black border border-gray-800 rounded p-4 text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none font-mono tracking-widest transition-all" 
+                      placeholder="GTM-XXXXXXX" 
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3 group">
+                    <label className="text-sm font-bold text-gray-300 group-focus-within:text-orange-400 transition-colors uppercase tracking-widest">
+                      Google Search Console (GSC)
+                    </label>
+                    <p className="text-xs text-gray-500 font-mono">Ingresa SOLO el código de verificación (content="..."). Ejemplo: 1a2b3c4d5e...</p>
+                    <input 
+                      type="text" 
+                      value={globalScripts.gsc_id || ''} 
+                      onChange={e => setGlobalScripts({...globalScripts, gsc_id: e.target.value})} 
+                      className="bg-black border border-gray-800 rounded p-4 text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none font-mono tracking-widest transition-all" 
+                      placeholder="Código de verificación GSC" 
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-3 group">
+                    <label className="text-sm font-bold text-gray-300 group-focus-within:text-orange-400 transition-colors uppercase tracking-widest">
+                      Meta Pixel (Facebook)
+                    </label>
+                    <p className="text-xs text-gray-500 font-mono">Ingresa el ID numérico base del pixel (15 a 16 dígitos).</p>
+                    <input 
+                      type="text" 
+                      value={globalScripts.pixel_id || ''} 
+                      onChange={e => setGlobalScripts({...globalScripts, pixel_id: e.target.value})} 
+                      className="bg-black border border-gray-800 rounded p-4 text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none font-mono tracking-widest transition-all" 
+                      placeholder="123456789012345" 
+                    />
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-gray-800">
+                    <button type="submit" className="w-full electric-border py-4 font-bold text-white tracking-widest uppercase bg-orange-900/20 hover:bg-orange-800/40 transition-colors shadow-lg" style={{ '--electric-color': '#f97316' } as React.CSSProperties}>
+                      [ Inyectar Fragmentos Globales ]
+                    </button>
+                  </div>
+                </form>
               </motion.div>
             )}
           </AnimatePresence>
