@@ -12,6 +12,7 @@ export default function Loader() {
           alt="Intelliqbot Loading"
           width={348}
           height={130}
+          sizes="348px"
           priority
           fetchPriority="high"
           className="object-contain drop-shadow-2xl"

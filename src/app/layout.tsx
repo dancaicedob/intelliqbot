@@ -45,9 +45,7 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Preconnect to critical resources */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Preconnect to critical resources - only if used */}
         {scripts.gtm_id && <link rel="preconnect" href="https://www.googletagmanager.com" />}
         
         {/* GTM Script en head */}
