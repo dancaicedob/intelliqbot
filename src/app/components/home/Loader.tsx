@@ -22,7 +22,7 @@ export default function Loader() {
           fetchPriority="high"
           decoding="async"
           className="object-contain drop-shadow-2xl w-full"
-          quality={70}
+          quality={60}
           style={{ maxWidth: '311px', height: 'auto' }}
         />
         {/* Efecto de brillo que pasa sobre el logo */}
