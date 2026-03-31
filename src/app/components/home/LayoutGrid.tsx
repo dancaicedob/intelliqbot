@@ -1,19 +1,8 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+import RobotBox from './RobotBox';
+import AIChip from './iconos/AIChip';
 import Image from 'next/image';
-
-// Lazy load RobotBox - Expensive component with Framer Motion
-const RobotBox = dynamic(() => import('./RobotBox'), {
-  loading: () => <div className="h-[100dvh] w-full bg-gradient-to-br from-gray-900 to-zinc-800" />,
-  ssr: false,
-});
-
-// Lazy load icons
-const AIChip = dynamic(() => import('./iconos/AIChip'), {
-  loading: () => <div className="w-[300px] h-[300px]" />,
-  ssr: false,
-});
 
 export default function LayoutGrid() {
   return (
