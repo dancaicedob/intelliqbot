@@ -15,15 +15,15 @@ export default function Loader() {
         <Image
           src="/images/logo-intelliqbot.png"
           alt="Intelliqbot Loading"
-          width={348}
-          height={130}
-          sizes="348px"
+          width={328}
+          height={123}
+          sizes="(max-width: 480px) 80vw, (max-width: 768px) 328px, 328px"
           priority
           fetchPriority="high"
           decoding="async"
           className="object-contain drop-shadow-2xl w-full"
-          quality={75}
-          style={{ maxWidth: '348px', height: 'auto' }}
+          quality={70}
+          style={{ maxWidth: '328px', height: 'auto' }}
         />
         {/* Efecto de brillo que pasa sobre el logo */}
         <div 
