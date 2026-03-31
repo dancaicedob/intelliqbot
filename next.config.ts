@@ -2,6 +2,10 @@ import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  
+  // Target modern browsers (ES2020+) to avoid polyfills
+  swcMinify: true,
+  
   // Rewrites para servir archivos dinámicos como estáticos
   async rewrites() {
     return {
@@ -20,6 +24,13 @@ const nextConfig: NextConfig = {
         },
       ],
     };
+  },
+  
+  // Image optimization
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [320, 424, 640, 750, 828],
+    imageSizes: [348], // Only this size for logo
   },
 };
 
