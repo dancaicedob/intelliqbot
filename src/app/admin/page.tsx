@@ -5,11 +5,12 @@ import { getLeads } from '@/actions/getLeads';
 import { getSeoConfigs, saveSeoConfig, deleteSeoConfig, getGlobalScripts, saveGlobalScripts } from '@/actions/seoActions';
 import { getAppointments, createAppointment, deleteAppointment } from '@/actions/appointmentActions';
 import { motion, AnimatePresence } from 'framer-motion';
+import AdminSettings from '@/app/admin/components/AdminSettings';
 
 export default function AdminPanel() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'|'citas'>('mensajes');
+  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'|'citas'|'settings'>('mensajes');
   
   const [leads, setLeads] = useState<any[]>([]);
   const [seoList, setSeoList] = useState<any[]>([]);
@@ -217,6 +218,12 @@ export default function AdminPanel() {
               className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'integraciones' ? 'bg-orange-950/60 text-orange-300 border-b-2 border-orange-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
               Marketing
+            </button>
+            <button 
+              onClick={() => setActiveTab('settings')}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'settings' ? 'bg-green-950/60 text-green-300 border-b-2 border-green-400' : 'text-gray-500 hover:bg-white/5'}`}
+            >
+              Settings
             </button>
           </div>
         </header>
@@ -559,6 +566,18 @@ export default function AdminPanel() {
                     </button>
                   </div>
                 </form>
+              </motion.div>
+            )}
+
+            {activeTab === 'settings' && (
+              <motion.div 
+                key="settings"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="h-full bg-[#0a0a0a] border border-gray-800/50 rounded-2xl p-6 overflow-auto custom-scrollbar"
+              >
+                <AdminSettings />
               </motion.div>
             )}
           </AnimatePresence>

@@ -82,3 +82,42 @@ export async function saveGlobalScripts(scripts: any) {
   }
   return data;
 }
+
+// Site Settings (robots.txt, llm.txt, sitemap config)
+export async function getSiteSettings() {
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('*')
+    .eq('id', 1)
+    .single();
+
+  if (error) {
+    console.error('getSiteSettings error:', error.message);
+    // Return defaults if table doesn't exist
+    return {
+      id: 1,
+      sitemap_excluded_routes: [],
+      robots_custom_content: '',
+      llm_custom_content: '',
+    };
+  }
+  return data;
+}
+
+export async function saveSiteSettings(settings: any) {
+  const { data, error } = await supabase
+    .from('site_settings')
+    .upsert({ id: 1, ...settings })
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+
+  try {
+    revalidatePath('/api/robots.txt', 'layout');
+    revalidatePath('/api/llm.txt', 'layout');
+  } catch (e) {
+    console.warn("Could not revalidate path", e);
+  }
+  return data;
+}

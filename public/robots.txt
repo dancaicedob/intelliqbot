@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# El contenido dinámico de robots.txt está en /api/robots.txt
+# Configurable desde el Admin Panel > Settings > Robots.txt
+
+Sitemap: https://tudominio.com/api/sitemap.xml
+
