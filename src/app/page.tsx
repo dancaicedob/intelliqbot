@@ -1,10 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from '@/app/components/home/Navbar';
-import LayoutGrid from '@/app/components/home/LayoutGrid';
 import Loader from '@/app/components/home/Loader';
+
+// Lazy-load LayoutGrid to defer Framer Motion animations
+const LayoutGrid = dynamic(
+  () => import('@/app/components/home/LayoutGrid'),
+  {
+    ssr: false,
+    loading: () => <div className="h-[100dvh] w-full bg-[#050505]" />,
+  }
+);
 
 export default function HomePage() {
   const [showHome, setShowHome] = useState(false);
