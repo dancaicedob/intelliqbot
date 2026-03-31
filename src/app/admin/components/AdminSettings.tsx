@@ -4,8 +4,15 @@ import { useState, useEffect } from 'react';
 import { getSiteSettings, saveSiteSettings } from '@/actions/seoActions';
 import { publicRoutes } from '@/config/publicRoutes';
 
+interface SiteSettings {
+  id?: number;
+  sitemap_excluded_routes: string[];
+  robots_custom_content: string;
+  llm_custom_content: string;
+}
+
 export default function AdminSettings() {
-  const [settings, setSettings] = useState<any>(null);
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<'sitemap' | 'robots' | 'llm'>('sitemap');
@@ -17,7 +24,7 @@ export default function AdminSettings() {
   const loadSettings = async () => {
     try {
       const data = await getSiteSettings();
-      setSettings(data);
+      setSettings(data as SiteSettings);
     } catch (err) {
       console.error('Error loading settings:', err);
     } finally {
@@ -27,6 +34,7 @@ export default function AdminSettings() {
 
   const handleSaveSettings = async () => {
     try {
+      if (!settings) return;
       await saveSiteSettings(settings);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
@@ -36,20 +44,23 @@ export default function AdminSettings() {
   };
 
   const toggleRoute = (path: string) => {
-    const excluded = settings.sitemap_excluded_routes || [];
-    const isExcluded = excluded.includes(path);
-    
-    if (isExcluded) {
-      setSettings(prev => ({
-        ...prev,
-        sitemap_excluded_routes: excluded.filter(p => p !== path)
-      }));
-    } else {
-      setSettings(prev => ({
-        ...prev,
-        sitemap_excluded_routes: [...excluded, path]
-      }));
-    }
+    setSettings((prev: SiteSettings | null) => {
+      if (!prev) return null;
+      const excluded = prev.sitemap_excluded_routes || [];
+      const isExcluded = excluded.includes(path);
+
+      if (isExcluded) {
+        return {
+          ...prev,
+          sitemap_excluded_routes: excluded.filter(p => p !== path)
+        };
+      } else {
+        return {
+          ...prev,
+          sitemap_excluded_routes: [...excluded, path]
+        };
+      }
+    });
   };
 
   if (isLoading || !settings) {
@@ -151,12 +162,11 @@ export default function AdminSettings() {
           </p>
 
           <textarea
-            value={settings.robots_custom_content || ''}
+            value={settings?.robots_custom_content || ''}
             onChange={(e) =>
-              setSettings(prev => ({
-                ...prev,
-                robots_custom_content: e.target.value
-              }))
+              setSettings((prev: SiteSettings | null) => 
+                prev ? { ...prev, robots_custom_content: e.target.value } : null
+              )
             }
             className="w-full h-80 p-4 border rounded-lg font-mono text-sm"
             placeholder="# Contenido personalizado de robots.txt&#10;# Déjalo vacío para usar el contenido automático"
@@ -192,12 +202,11 @@ export default function AdminSettings() {
           </p>
 
           <textarea
-            value={settings.llm_custom_content || ''}
+            value={settings?.llm_custom_content || ''}
             onChange={(e) =>
-              setSettings(prev => ({
-                ...prev,
-                llm_custom_content: e.target.value
-              }))
+              setSettings((prev: SiteSettings | null) => 
+                prev ? { ...prev, llm_custom_content: e.target.value } : null
+              )
             }
             className="w-full h-80 p-4 border rounded-lg font-mono text-sm"
             placeholder="# Información para LLMs&#10;# Déjalo vacío para usar el contenido automático"
