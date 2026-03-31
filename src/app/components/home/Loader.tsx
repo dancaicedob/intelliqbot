@@ -17,13 +17,13 @@ export default function Loader() {
           alt="Intelliqbot Loading"
           width={328}
           height={123}
-          sizes="(max-width: 480px) 80vw, (max-width: 768px) 328px, 328px"
+          sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, 328px"
           priority
           fetchPriority="high"
           decoding="async"
           className="object-contain drop-shadow-2xl w-full"
           quality={70}
-          style={{ maxWidth: '328px', height: 'auto' }}
+          style={{ maxWidth: '311px', height: 'auto' }}
         />
         {/* Efecto de brillo que pasa sobre el logo */}
         <div 

@@ -2,9 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import dynamic from 'next/dynamic';
 import Navbar from '@/app/components/home/Navbar';
-import LayoutGrid from '@/app/components/home/LayoutGrid';
 import Loader from '@/app/components/home/Loader';
+
+// Lazy load LayoutGrid - Heavy component with Framer Motion
+const LayoutGrid = dynamic(() => import('@/app/components/home/LayoutGrid'), {
+  loading: () => <div className="h-[100dvh] w-full bg-[#050505]" />,
+  ssr: false,
+});
 
 export default function HomePage() {
   const [showHome, setShowHome] = useState(false);
@@ -51,7 +57,7 @@ export default function HomePage() {
       >
         {/* Renderizamos el contenido real solo para que el DOM esté listo o se monte limpio */}
         <Navbar />
-        <LayoutGrid />
+        {showHome && <LayoutGrid />}
       </motion.div>
 
     </main>

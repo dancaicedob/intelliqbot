@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import { GoogleTagManager } from '@next/third-parties/google';
 import Script from 'next/script';
 import { getDynamicSeo } from '@/lib/seo';
 import { getGlobalScripts } from '@/actions/seoActions';
-import ChatbotWidget from '@/app/components/ChatbotWidget';
+import dynamic from 'next/dynamic';
+import { GoogleTagManager } from '@next/third-parties/google';
+// Import global styles - required for Tailwind
+import "./globals.css";
+
+// Lazy load ChatbotWidget - Heavy component with Framer Motion
+const ChatbotWidget = dynamic(() => import('@/app/components/ChatbotWidget'), {
+  loading: () => null,
+  ssr: false,
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +52,17 @@ export default async function RootLayout({
   return (
     <html lang="es">
       <head>
+        {/* CRITICAL INLINE STYLES - Inline to avoid render blocking */}
+        <style dangerouslySetInnerHTML={{__html: `
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff; font-family: Arial, Helvetica, sans-serif; }
+          html, body, #__next { height: 100%; width: 100%; }
+          @keyframes shimmer { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+          @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+          .animate-shimmer { animation: shimmer 2s ease-in-out infinite; }
+          .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        `}} />
+        
         {/* Preconnect to critical resources - only if used */}
         {scripts.gtm_id && <link rel="preconnect" href="https://www.googletagmanager.com" />}
         
