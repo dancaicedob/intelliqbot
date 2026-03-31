@@ -25,6 +25,8 @@ export default function LayoutGrid() {
             alt="Servicios Icon"
             width={300}
             height={300}
+            loading="lazy"
+            quality={80}
             className="mx-auto"
           />
         }
@@ -41,6 +43,8 @@ export default function LayoutGrid() {
             alt="Nosotros Icon"
             width={300}
             height={300}
+            loading="lazy"
+            quality={80}
             className="mx-auto"
           />
         }
@@ -57,6 +61,8 @@ export default function LayoutGrid() {
             alt="Contacto Icon"
             width={300}
             height={300}
+            loading="lazy"
+            quality={80}
             className="mx-auto"
           />
         }

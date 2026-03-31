@@ -10,10 +10,12 @@ export default function Loader() {
         <Image
           src="/images/logo-intelliqbot.png"
           alt="Intelliqbot Loading"
-          width={400}
-          height={150}
-          className="object-contain drop-shadow-2xl"
+          width={348}
+          height={130}
           priority
+          fetchPriority="high"
+          className="object-contain drop-shadow-2xl"
+          quality={85}
         />
         {/* Efecto de brillo que pasa sobre el logo */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer" />
