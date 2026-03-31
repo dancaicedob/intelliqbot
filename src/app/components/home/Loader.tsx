@@ -17,7 +17,7 @@ export default function Loader() {
           alt="Intelliqbot Loading"
           width={328}
           height={123}
-          sizes="(max-width: 480px) 90vw, (max-width: 768px) 80vw, 328px"
+          sizes="(max-width: 480px) 300px, (max-width: 768px) 300px, 300px"
           priority
           fetchPriority="high"
           decoding="async"
