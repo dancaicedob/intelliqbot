@@ -3,16 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from 'next/script';
 import { getDynamicSeo } from '@/lib/seo';
 import { getGlobalScripts } from '@/actions/seoActions';
-import dynamic from 'next/dynamic';
 import { GoogleTagManager } from '@next/third-parties/google';
+import ChatbotWidget from '@/app/components/ChatbotWidget';
 // Import global styles - required for Tailwind
 import "./globals.css";
-
-// Lazy load ChatbotWidget - Heavy component with Framer Motion
-const ChatbotWidget = dynamic(() => import('@/app/components/ChatbotWidget'), {
-  loading: () => null,
-  ssr: false,
-});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
