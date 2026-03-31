@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { motion } from 'framer-motion';
 import Navbar from '@/app/components/home/Navbar';
+import Footer from '@/app/components/home/Footer';
 import EditingCode from "@/app/components/home/iconos/EditingCode";
 
 
@@ -38,9 +39,7 @@ export default function ServicesPage() {
       <EditingCode />
       <ServicesShowcase />
 
-      <footer className="mt-20 text-center text-gray-500 py-10 text-sm">
-        © {new Date().getFullYear()} Intelliqbot. Todos los derechos reservados.
-      </footer>
+      <Footer />
     </main>
   );
 }

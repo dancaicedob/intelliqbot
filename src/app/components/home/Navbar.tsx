@@ -79,6 +79,17 @@ export default function FloatingNavbar() {
           </ul>
 
           <div className="text-center">
+            <h3 className="text-cyan-500 font-mono text-xs uppercase tracking-widest mb-3 border-b border-cyan-900/50 pb-2 inline-block">Soluciones Locales</h3>
+            <div className="flex justify-center gap-4 text-xs font-mono mb-6">
+              <Link href="/automatizacion-ventas-medellin" onClick={closeMenu} className="text-gray-400 hover:text-cyan-400 transition-colors">Medellín</Link>
+              <span className="text-gray-700">|</span>
+              <Link href="/automatizacion-ventas-bogota" onClick={closeMenu} className="text-gray-400 hover:text-purple-400 transition-colors">Bogotá</Link>
+              <span className="text-gray-700">|</span>
+              <Link href="/automatizacion-ventas-cali" onClick={closeMenu} className="text-gray-400 hover:text-green-400 transition-colors">Cali</Link>
+            </div>
+          </div>
+
+          <div className="text-center">
             <Image
               src="/images/logo-intelliqbot.png"
               alt="Logo"

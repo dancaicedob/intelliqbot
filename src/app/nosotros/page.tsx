@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Navbar from '@/app/components/home/Navbar';
+import Footer from '@/app/components/home/Footer';
 
 export default function NosotrosPage() {
   return (
@@ -557,6 +558,7 @@ export default function NosotrosPage() {
         </motion.section>
 
       </div>
+      <Footer />
     </main>
   );
 }

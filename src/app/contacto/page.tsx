@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Navbar from '@/app/components/home/Navbar';
+import Footer from '@/app/components/home/Footer';
 import { supabase } from '@/lib/supabase';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
@@ -219,6 +220,7 @@ export default function ContactoPage() {
 
         </div>
       </div>
+      <Footer />
     </main>
   );
 }

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Navbar from '@/app/components/home/Navbar';
+import Footer from '@/app/components/home/Footer';
 import BogotaForm from './components/BogotaForm';
 
 export default function BogotaLandingPage() {
@@ -191,10 +192,25 @@ export default function BogotaLandingPage() {
               </svg>
               Hablar por WhatsApp
             </a>
+
+            {/* Interlinking Links */}
+            <div className="mt-16 pt-8 border-t border-gray-800/80 w-full max-w-2xl flex flex-col items-center">
+              <p className="text-gray-500 font-mono text-xs uppercase tracking-widest mb-4">📍 Otras ciudades con servicio activo</p>
+              <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
+                <a href="/automatizacion-ventas-medellin" className="text-gray-400 hover:text-cyan-400 transition-colors bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-800 hover:border-cyan-500/50">
+                  Automatización en Medellín
+                </a>
+                <a href="/automatizacion-ventas-cali" className="text-gray-400 hover:text-green-400 transition-colors bg-gray-900/50 px-4 py-2 rounded-lg border border-gray-800 hover:border-green-500/50">
+                  Automatización en Cali
+                </a>
+              </div>
+            </div>
+
           </div>
         </motion.div>
 
       </div>
+      <Footer />
     </main>
   );
 }
