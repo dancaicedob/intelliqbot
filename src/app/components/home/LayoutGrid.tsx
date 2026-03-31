@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function LayoutGrid() {
   return (
-    <div className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth">
+    <div className="h-[100dvh] w-full overflow-y-scroll snap-y snap-mandatory overscroll-y-none no-scrollbar relative">
       
       {/* Work */}
       <RobotBox

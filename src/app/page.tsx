@@ -14,7 +14,7 @@ export default function HomePage() {
     if (fromExternal) {
       const timeout = setTimeout(() => {
         setShowHome(true);
-      }, 4000); // 4 segundos de splash screen
+      }, 2000); // 2 segundos de splash screen
       return () => clearTimeout(timeout);
     } else {
       setShowHome(true);

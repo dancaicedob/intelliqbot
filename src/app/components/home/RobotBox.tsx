@@ -28,7 +28,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
     <section
       id={id}
       ref={ref}
-      className="snap-start min-h-screen flex items-center justify-center p-6 md:p-12 bg-gradient-to-br from-gray-900 to-zinc-800 overflow-hidden"
+      className="snap-start snap-always h-[100dvh] w-full flex items-center justify-center p-6 md:p-12 bg-gradient-to-br from-gray-900 to-zinc-800 overflow-hidden relative"
     >
       {/* Animated background glow */}
       <motion.div
@@ -39,11 +39,12 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
 
       <div className="relative max-w-4xl w-full flex flex-col md:flex-row items-center gap-8 z-10">
         <motion.div
-          className="flex-shrink-0 p-6 rounded-xl border-2 border-cyan-500 bg-black/30 backdrop-blur-sm"
+          className="flex-shrink-0 p-6 rounded-xl border-2 border-cyan-500 bg-black/30 backdrop-blur-sm shadow-[0_0_20px_rgba(0,255,255,0.1)]"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={visible ? { scale: 1, opacity: 1, rotate: [0, 5, -5, 0] } : {}}
           transition={{ duration: 1, ease: 'easeInOut', repeat: visible ? Infinity : 0, repeatDelay: 3 }}
           whileHover={{ scale: 1.1, rotate: 0 }}
+          style={{ willChange: "transform, opacity" }}
         >
           {icon}
         </motion.div>
@@ -55,6 +56,7 @@ export default function RobotBox({ id, title, subtitle, icon }: RobotBoxProps) {
               initial={{ y: -20, opacity: 0 }}
               animate={visible ? { y: 0, opacity: 1 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
+              style={{ willChange: "transform, opacity" }}
             >
               {title}
             </motion.h2>
