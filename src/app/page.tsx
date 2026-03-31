@@ -22,7 +22,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="relative bg-[#050505] min-h-screen">
+    <main className="relative bg-[#050505] h-[100dvh] w-full overflow-hidden">
       
       {/* Capa del Loader: Se esfuma suavemente cuando showHome pasa a true */}
       <AnimatePresence>
@@ -32,10 +32,9 @@ export default function HomePage() {
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0, 
-              filter: 'blur(10px)', 
-              scale: 1.05 
+              filter: 'blur(10px)'
             }}
-            transition={{ duration: 1.2, ease: "easeInOut" }}
+            transition={{ duration: 1, ease: "easeInOut" }}
             className="fixed inset-0 z-[100] bg-[#0f0c29]"
           >
             <Loader />
@@ -43,14 +42,11 @@ export default function HomePage() {
         )}
       </AnimatePresence>
 
-      {/* Capa Principal: Precargada en el DOM, se revela suavemente con escala */}
+      {/* Capa Principal: Precargada en el DOM, se revela solo con opacidad para evitar overflow X */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ 
-          opacity: showHome ? 1 : 0, 
-          scale: showHome ? 1 : 0.95 
-        }}
-        transition={{ duration: 1.6, ease: "easeOut", delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showHome ? 1 : 0 }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.1 }}
         className="w-full h-full"
       >
         {/* Renderizamos el contenido real solo para que el DOM esté listo o se monte limpio */}
