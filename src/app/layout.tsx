@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from 'next/script';
 import { getDynamicSeo } from '@/lib/seo';
 import { getGlobalScripts } from '@/actions/seoActions';
-import { GoogleTagManager } from '@next/third-parties/google';
 import ChatbotWidget from '@/app/components/ChatbotWidget';
 import "./globals.css";
 
@@ -47,13 +45,33 @@ export default async function RootLayout({
       <head>
         {/* Preconnect to critical resources - only if used */}
         {scripts.gtm_id && <link rel="preconnect" href="https://www.googletagmanager.com" />}
+        {scripts.gtm_id && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${scripts.gtm_id}');`
+            }}
+          />
+        )}
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        {scripts.gtm_id && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${scripts.gtm_id}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            ></iframe>
+          </noscript>
+        )}
         
-        {scripts.gtm_id && <GoogleTagManager gtmId={scripts.gtm_id} />}
+        {children}
         
         {scripts.pixel_id && (
           <Script id="meta-pixel" strategy="afterInteractive">
