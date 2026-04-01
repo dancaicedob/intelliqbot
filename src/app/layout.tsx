@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from 'next/script';
 import { getDynamicSeo } from '@/lib/seo';
 import { getGlobalScripts } from '@/actions/seoActions';
 import ChatbotWidget from '@/app/components/ChatbotWidget';
@@ -39,20 +40,22 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const scripts = await getGlobalScripts();
+  const gtmId = scripts.gtm_id ? scripts.gtm_id.trim() : "";
+  const pixelId = scripts.pixel_id ? scripts.pixel_id.trim() : "";
   
   return (
     <html lang="es">
       <head>
         {/* Preconnect to critical resources - only if used */}
-        {scripts.gtm_id && <link rel="preconnect" href="https://www.googletagmanager.com" />}
-        {scripts.gtm_id && (
+        {gtmId && <link rel="preconnect" href="https://www.googletagmanager.com" />}
+        {gtmId && (
           <script
             dangerouslySetInnerHTML={{
               __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${scripts.gtm_id}');`
+})(window,document,'script','dataLayer','${gtmId}');`
             }}
           />
         )}
@@ -60,10 +63,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {scripts.gtm_id && (
+        {gtmId && (
           <noscript>
             <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${scripts.gtm_id}`}
+              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
               height="0"
               width="0"
               style={{ display: "none", visibility: "hidden" }}
@@ -73,7 +76,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         
         {children}
         
-        {scripts.pixel_id && (
+        {pixelId && (
           <Script id="meta-pixel" strategy="afterInteractive">
             {`
               !function(f,b,e,v,n,t,s)
@@ -84,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '${scripts.pixel_id}');
+              fbq('init', '${pixelId}');
               fbq('track', 'PageView');
             `}
           </Script>
