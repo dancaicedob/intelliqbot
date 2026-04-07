@@ -25,7 +25,6 @@ Disallow: /api/
 Disallow: /*.json
 Disallow: /*.xml
 Disallow: /*?*sort=
-Crawl-delay: 1
 Allow: /
 
 User-agent: Bingbot
@@ -120,7 +119,6 @@ Disallow: /search
 Disallow: /account
 Disallow: /cart
 Disallow: /checkout
-Crawl-delay: 2
 Allow: /
 
 # ============================================

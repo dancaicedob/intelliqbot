@@ -2,6 +2,9 @@ import { supabase } from '@/lib/supabase';
 import { Metadata } from 'next';
 
 export async function getDynamicSeo(route: string, baseMetadata: Metadata): Promise<Metadata> {
+  const dynamicCanonical = `https://intelliqbot.com${route === '/' ? '' : route}`;
+  let canonicalUrl = dynamicCanonical;
+
   try {
     const { data: seo } = await supabase
       .from('page_seo')
@@ -10,12 +13,15 @@ export async function getDynamicSeo(route: string, baseMetadata: Metadata): Prom
       .single();
 
     if (seo) {
+      if (seo.canonical) {
+        canonicalUrl = seo.canonical;
+      }
       return {
         ...baseMetadata,
         title: seo.title || baseMetadata.title,
         description: seo.description || baseMetadata.description,
         robots: seo.robots || baseMetadata.robots,
-        alternates: seo.canonical ? { canonical: seo.canonical } : baseMetadata.alternates,
+        alternates: { ...baseMetadata.alternates, canonical: canonicalUrl },
         keywords: seo.keywords ? seo.keywords.split(',').map((k: string) => k.trim()) : baseMetadata.keywords,
       };
     }
@@ -23,5 +29,8 @@ export async function getDynamicSeo(route: string, baseMetadata: Metadata): Prom
     // Return base metadata if table doesn't exist or other error
   }
 
-  return baseMetadata;
+  return {
+    ...baseMetadata,
+    alternates: { ...baseMetadata.alternates, canonical: canonicalUrl }
+  };
 }

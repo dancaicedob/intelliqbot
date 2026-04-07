@@ -179,7 +179,6 @@ export default function AdminSettings() {
                 <li>✓ Googlebot, Bingbot optimizado</li>
                 <li>✓ Bots IA permitidos (GPTBot, Claude)</li>
                 <li>✓ Bloque de scrapers</li>
-                <li>✓ Crawl-delay apropiado</li>
                 <li>✓ SEO Local Colombia</li>
               </ul>
             </div>
