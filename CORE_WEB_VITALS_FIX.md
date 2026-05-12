@@ -146,7 +146,7 @@ Vercel auto-deploya al hacer push
 
 ### PASO 5: Verificar en PageSpeed
 1. Ve a https://pagespeed.web.dev/
-2. Analiza: `https://www.intelliqbot.com`
+2. Analiza: `https://www.intelliqbot.co`
 3. Debería mejorar LCP de verde
 
 ---

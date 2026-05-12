@@ -15,16 +15,16 @@ const baseMetadata: Metadata = {
     'IA para negocios Cali'
   ],
   alternates: {
-    canonical: 'https://www.intelliqbot.com/automatizacion-ventas-cali',
+    canonical: 'https://www.intelliqbot.co/automatizacion-ventas-cali',
   },
   openGraph: {
     title: 'Chatbots con IA en Cali para automatizar ventas y atención',
     description: 'Ayudamos a empresas en Cali a mejorar sus ventas y atención al cliente mediante chatbots con inteligencia artificial y automatización avanzada por WhatsApp.',
-    url: 'https://www.intelliqbot.com/automatizacion-ventas-cali',
+    url: 'https://www.intelliqbot.co/automatizacion-ventas-cali',
     siteName: 'Intelliqbot',
     images: [
       {
-        url: 'https://www.intelliqbot.com/images/logo-intelliqbot.png',
+        url: 'https://www.intelliqbot.co/images/logo-intelliqbot.png',
         width: 384,
         height: 384,
         alt: 'Intelliqbot - Agencia de Inteligencia Artificial en Cali',
@@ -48,9 +48,9 @@ export default function CaliLayout({
     "@context": "https://schema.org",
     "@type": "ServiceAreaBusiness",
     "name": "Intelliqbot",
-    "url": "https://www.intelliqbot.com/automatizacion-ventas-cali",
-    "logo": "https://www.intelliqbot.com/images/logo-intelliqbot.png",
-    "image": "https://www.intelliqbot.com/images/logo-intelliqbot.png",
+    "url": "https://www.intelliqbot.co/automatizacion-ventas-cali",
+    "logo": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
+    "image": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
     "description": "En Intelliqbot ayudamos a empresas en Cali a mejorar sus ventas y atención al cliente mediante chatbots con inteligencia artificial, automatizando conversaciones y WhatsApp en tiempo real.",
     "email": "intelliqbot@gmail.com",
     "telephone": "+573176285563",

@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase';
 import { Metadata } from 'next';
 
 export async function getDynamicSeo(route: string, baseMetadata: Metadata): Promise<Metadata> {
-  const dynamicCanonical = `https://intelliqbot.com${route === '/' ? '' : route}`;
+  const dynamicCanonical = `https://intelliqbot.co${route === '/' ? '' : route}`;
   let canonicalUrl = dynamicCanonical;
 
   try {

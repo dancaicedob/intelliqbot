@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 const baseMetadata: Metadata = {
-  metadataBase: new URL("https://intelliqbot.com"),
+  metadataBase: new URL("https://intelliqbot.co"),
   title: "Intelliqbot - Agencia de Inteligencia Artificial",
   description: "Transformamos la operación de miles de negocios con plataformas y automatización avanzada con IA.",
   keywords: ["IA", "Agencia IA", "Automatización", "Intelliqbot"],

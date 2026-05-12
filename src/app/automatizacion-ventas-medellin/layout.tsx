@@ -14,16 +14,16 @@ const baseMetadata: Metadata = {
     'Automatización de procesos empresariales Colombia'
   ],
   alternates: {
-    canonical: 'https://www.intelliqbot.com/automatizacion-ventas-medellin',
+    canonical: 'https://www.intelliqbot.co/automatizacion-ventas-medellin',
   },
   openGraph: {
     title: 'Automatización de Ventas y Chatbots con IA en Medellín',
     description: 'Aumenta tus ventas con chatbots para WhatsApp y automatización de procesos en Medellín. Optimiza tu negocio 24/7.',
-    url: 'https://www.intelliqbot.com/automatizacion-ventas-medellin',
+    url: 'https://www.intelliqbot.co/automatizacion-ventas-medellin',
     siteName: 'Intelliqbot',
     images: [
       {
-        url: 'https://www.intelliqbot.com/images/logo-intelliqbot.png',
+        url: 'https://www.intelliqbot.co/images/logo-intelliqbot.png',
         width: 384,
         height: 384,
         alt: 'Intelliqbot - Agencia de Inteligencia Artificial en Medellín',
@@ -47,9 +47,9 @@ export default function MedellinLayout({
     "@context": "https://schema.org",
     "@type": "ServiceAreaBusiness",
     "name": "Intelliqbot",
-    "url": "https://www.intelliqbot.com/automatizacion-ventas-medellin",
-    "logo": "https://www.intelliqbot.com/images/logo-intelliqbot.png",
-    "image": "https://www.intelliqbot.com/images/logo-intelliqbot.png",
+    "url": "https://www.intelliqbot.co/automatizacion-ventas-medellin",
+    "logo": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
+    "image": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
     "description": "Agencia de automatización en Medellín de primer nivel. Implementamos ventas automatizadas por WhatsApp, asistentes virtuales con IA y optimización de tareas en línea para escalar tu negocio en Antioquia y Colombia.",
     "email": "intelliqbot@gmail.com",
     "telephone": "+573176285563",
