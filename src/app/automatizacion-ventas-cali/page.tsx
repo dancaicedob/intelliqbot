@@ -18,7 +18,7 @@ export default function CaliLandingPage() {
       <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-green-600/10 blur-[150px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">
-        
+
         {/* HERO SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-32">
           <motion.div
@@ -53,7 +53,7 @@ export default function CaliLandingPage() {
         </div>
 
         {/* 3 CUADROS SECTION */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -75,7 +75,7 @@ export default function CaliLandingPage() {
                 <p className="text-gray-400">Desarrollamos chatbots que entienden, responden y toman decisiones, mejorando la atención al cliente y aumentando las conversiones exponencialmente.</p>
               </div>
             </div>
-            
+
             {/* Box 2 */}
             <div className="group relative w-full h-full p-[1px] rounded-[1.5rem] overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-teal-500 via-cyan-600 to-transparent opacity-30 group-hover:opacity-100 transition-opacity animate-pulse-slow" />
@@ -100,7 +100,7 @@ export default function CaliLandingPage() {
 
         {/* SEO MAP / KEYWORDS & BENEFITS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
-          
+
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -117,7 +117,7 @@ export default function CaliLandingPage() {
                 "Chatbots para empresas Cali",
                 "Automatización inteligencia artificial Cali",
                 "Chatbot WhatsApp Cali",
-                "Automatización atención al cliente Cali",
+                "Automatización atención al cliente Cali y el valle",
                 "Bot para responder clientes Cali",
                 "Sistema automatizado de ventas Cali",
                 "IA para negocios Cali"
@@ -179,8 +179,8 @@ export default function CaliLandingPage() {
             <p className="text-white drop-shadow-[0_0_8px_rgba(34,197,94,0.4)] font-bold text-xl mb-12">
               👉 Da el paso hacia la automatización inteligente y lleva tu negocio al siguiente nivel.
             </p>
-            
-            <a 
+
+            <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
