@@ -49,47 +49,59 @@ export async function getAllWorkPosts(): Promise<WorkPost[]> {
 // ─── WRITE ────────────────────────────────────────────────────────────────────
 
 export async function saveWorkPost(post: WorkPost): Promise<{ success: boolean; data?: WorkPost; error?: string }> {
-  const payload = {
-    title: post.title,
-    description: post.description,
-    media_type: post.media_type,
-    media_url: post.media_url,
-    media_poster: post.media_poster || '',
-    social_url: post.social_url || '',
-    technologies: post.technologies,
-    links: post.links,
-    position: post.position,
-    is_active: post.is_active,
-  };
-
-  let result;
-
-  if (post.id) {
-    const { data, error } = await supabase
-      .from('work_posts')
-      .update(payload)
-      .eq('id', post.id)
-      .select()
-      .single();
-    if (error) return { success: false, error: error.message };
-    result = data;
-  } else {
-    const { data, error } = await supabase
-      .from('work_posts')
-      .insert(payload)
-      .select()
-      .single();
-    if (error) return { success: false, error: error.message };
-    result = data;
-  }
-
   try {
-    revalidatePath('/work', 'page');
-  } catch (e) {
-    console.warn('Could not revalidate /work', e);
-  }
+    const payload = {
+      title: post.title,
+      description: post.description,
+      media_type: post.media_type,
+      media_url: post.media_url,
+      media_poster: post.media_poster || '',
+      social_url: post.social_url || '',
+      technologies: post.technologies,
+      links: post.links,
+      position: post.position,
+      is_active: post.is_active,
+    };
 
-  return { success: true, data: result };
+    let result;
+
+    if (post.id) {
+      console.log(`[saveWorkPost] Actualizando post ${post.id}...`, payload);
+      const { data, error } = await supabase
+        .from('work_posts')
+        .update(payload)
+        .eq('id', post.id)
+        .select()
+        .single();
+      if (error) {
+        console.error('[saveWorkPost] Error en update:', error);
+        return { success: false, error: error.message };
+      }
+      result = data;
+    } else {
+      console.log('[saveWorkPost] Creando nuevo post...', payload);
+      const { data, error } = await supabase
+        .from('work_posts')
+        .insert(payload)
+        .select()
+        .single();
+      if (error) {
+        console.error('[saveWorkPost] Error en insert:', error);
+        return { success: false, error: error.message };
+      }
+      result = data;
+    }
+
+    try {
+      revalidatePath('/work', 'page');
+    } catch (e) {
+      console.warn('Could not revalidate /work', e);
+    }
+
+    return { success: true, data: result };
+  } catch (err: any) {
+    return { success: false, error: err.message || 'Error interno del servidor action' };
+  }
 }
 
 export async function deleteWorkPost(id: string): Promise<void> {
@@ -129,14 +141,20 @@ export async function uploadWorkMedia(
 ): Promise<string> {
   const ext = file.name.split('.').pop();
   const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+  
+  console.log(`[uploadWorkMedia] Iniciando subida a ${folder}...`, fileName);
 
   const { error } = await supabase.storage
     .from('work-media')
     .upload(fileName, file, { upsert: false });
 
-  if (error) throw new Error('Error subiendo archivo: ' + error.message);
+  if (error) {
+    console.error('[uploadWorkMedia] Error subiendo a storage:', error);
+    throw new Error('Error subiendo archivo: ' + error.message);
+  }
 
   const { data } = supabase.storage.from('work-media').getPublicUrl(fileName);
+  console.log(`[uploadWorkMedia] Subida exitosa:`, data.publicUrl);
   return data.publicUrl;
 }
 
