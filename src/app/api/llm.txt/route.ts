@@ -1,5 +1,7 @@
 import { getSiteSettings } from '@/actions/seoActions';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tudominio.com';
   const settings = await getSiteSettings();

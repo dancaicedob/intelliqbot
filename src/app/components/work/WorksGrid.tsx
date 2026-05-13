@@ -11,6 +11,7 @@ interface WorkPost {
   media_type: 'image' | 'video';
   media_url: string;
   media_poster?: string;
+  social_url?: string;
   technologies: string[];
   links: { label: string; url: string }[];
   position: number;
