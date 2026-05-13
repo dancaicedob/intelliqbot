@@ -133,14 +133,19 @@ export default function AdminWork({ posts, onRefresh }: Props) {
     if (!editing) return;
     setSaving(true);
     try {
-      await saveWorkPost({
+      const response = await saveWorkPost({
         ...editing,
         position: editing.position ?? posts.length,
       });
+      if (!response.success) {
+        alert('Error guardando: ' + response.error);
+        setSaving(false);
+        return;
+      }
       setEditing(null);
       onRefresh();
     } catch (err: any) {
-      alert('Error guardando: ' + err.message);
+      alert('Error de servidor: ' + err.message);
     } finally {
       setSaving(false);
     }

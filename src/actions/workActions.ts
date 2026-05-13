@@ -48,7 +48,7 @@ export async function getAllWorkPosts(): Promise<WorkPost[]> {
 
 // ─── WRITE ────────────────────────────────────────────────────────────────────
 
-export async function saveWorkPost(post: WorkPost): Promise<WorkPost> {
+export async function saveWorkPost(post: WorkPost): Promise<{ success: boolean; data?: WorkPost; error?: string }> {
   const payload = {
     title: post.title,
     description: post.description,
@@ -71,7 +71,7 @@ export async function saveWorkPost(post: WorkPost): Promise<WorkPost> {
       .eq('id', post.id)
       .select()
       .single();
-    if (error) throw new Error(error.message);
+    if (error) return { success: false, error: error.message };
     result = data;
   } else {
     const { data, error } = await supabase
@@ -79,7 +79,7 @@ export async function saveWorkPost(post: WorkPost): Promise<WorkPost> {
       .insert(payload)
       .select()
       .single();
-    if (error) throw new Error(error.message);
+    if (error) return { success: false, error: error.message };
     result = data;
   }
 
@@ -89,7 +89,7 @@ export async function saveWorkPost(post: WorkPost): Promise<WorkPost> {
     console.warn('Could not revalidate /work', e);
   }
 
-  return result;
+  return { success: true, data: result };
 }
 
 export async function deleteWorkPost(id: string): Promise<void> {
