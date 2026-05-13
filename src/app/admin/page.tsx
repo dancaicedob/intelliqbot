@@ -4,18 +4,21 @@ import { useState } from 'react';
 import { getLeads } from '@/actions/getLeads';
 import { getSeoConfigs, saveSeoConfig, deleteSeoConfig, getGlobalScripts, saveGlobalScripts } from '@/actions/seoActions';
 import { getAppointments, createAppointment, deleteAppointment } from '@/actions/appointmentActions';
+import { getAllWorkPosts } from '@/actions/workActions';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminSettings from '@/app/admin/components/AdminSettings';
+import AdminWork from '@/app/admin/components/AdminWork';
 
 export default function AdminPanel() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'|'citas'|'settings'>('mensajes');
+  const [activeTab, setActiveTab] = useState<'mensajes'|'seo'|'integraciones'|'citas'|'settings'|'work'>('mensajes');
   
   const [leads, setLeads] = useState<any[]>([]);
   const [seoList, setSeoList] = useState<any[]>([]);
   const [globalScripts, setGlobalScripts] = useState({ gtm_id: '', gsc_id: '', pixel_id: '' });
   const [appointments, setAppointments] = useState<any[]>([]);
+  const [workPosts, setWorkPosts] = useState<any[]>([]);
   
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   
@@ -54,6 +57,9 @@ export default function AdminPanel() {
       
       const appts = await getAppointments();
       if (appts) setAppointments(appts);
+
+      const workData = await getAllWorkPosts();
+      setWorkPosts(workData || []);
 
       setIsAuthenticated(true);
     } catch (err: any) {
@@ -218,6 +224,12 @@ export default function AdminPanel() {
               className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'integraciones' ? 'bg-orange-950/60 text-orange-300 border-b-2 border-orange-400' : 'text-gray-500 hover:bg-white/5'}`}
             >
               Marketing
+            </button>
+            <button 
+              onClick={() => setActiveTab('work')}
+              className={`px-4 md:px-6 py-3 font-mono text-xs md:text-sm uppercase tracking-wide transition-colors ${activeTab === 'work' ? 'bg-emerald-950/60 text-emerald-300 border-b-2 border-emerald-400' : 'text-gray-500 hover:bg-white/5'}`}
+            >
+              Work
             </button>
             <button 
               onClick={() => setActiveTab('settings')}
@@ -566,6 +578,24 @@ export default function AdminPanel() {
                     </button>
                   </div>
                 </form>
+              </motion.div>
+            )}
+
+            {activeTab === 'work' && (
+              <motion.div 
+                key="work"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                className="h-full bg-[#0a0a0a] border border-gray-800/50 rounded-2xl p-6 overflow-auto custom-scrollbar"
+              >
+                <AdminWork
+                  posts={workPosts}
+                  onRefresh={async () => {
+                    const updated = await getAllWorkPosts();
+                    setWorkPosts(updated || []);
+                  }}
+                />
               </motion.div>
             )}
 
