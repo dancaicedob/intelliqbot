@@ -15,16 +15,16 @@ const baseMetadata: Metadata = {
     'Embudos de ventas WhatsApp Bogotá'
   ],
   alternates: {
-    canonical: 'https://www.intelliqbot.co/automatizacion-ventas-bogota',
+    canonical: 'https://intelliqbot.co/automatizacion-ventas-bogota',
   },
   openGraph: {
     title: 'Ventas y Automatización por WhatsApp en Bogotá con IA',
     description: 'Aumenta tus ventas por WhatsApp en Bogotá mediante automatización inteligente y chatbots que responden 24/7 sin depender de procesos manuales.',
-    url: 'https://www.intelliqbot.co/automatizacion-ventas-bogota',
+    url: 'https://intelliqbot.co/automatizacion-ventas-bogota',
     siteName: 'Intelliqbot',
     images: [
       {
-        url: 'https://www.intelliqbot.co/images/logo-intelliqbot.png',
+        url: 'https://intelliqbot.co/images/logo-intelliqbot.png',
         width: 384,
         height: 384,
         alt: 'Intelliqbot - Agencia de Inteligencia Artificial en Bogotá',
@@ -48,9 +48,9 @@ export default function BogotaLayout({
     "@context": "https://schema.org",
     "@type": "ServiceAreaBusiness",
     "name": "Intelliqbot",
-    "url": "https://www.intelliqbot.co/automatizacion-ventas-bogota",
-    "logo": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
-    "image": "https://www.intelliqbot.co/images/logo-intelliqbot.png",
+    "url": "https://intelliqbot.co/automatizacion-ventas-bogota",
+    "logo": "https://intelliqbot.co/images/logo-intelliqbot.png",
+    "image": "https://intelliqbot.co/images/logo-intelliqbot.png",
     "description": "En Intelliqbot ayudamos a empresas en Bogotá a aumentar sus ventas por WhatsApp mediante automatización inteligente, optimizando la atención al cliente con chatbots con IA.",
     "email": "intelliqbot@gmail.com",
     "telephone": "+573176285563",
