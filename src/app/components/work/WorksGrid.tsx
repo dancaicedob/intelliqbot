@@ -61,6 +61,7 @@ export default function WorksGrid() {
             src: post.media_url,
             poster: post.media_poster || undefined,
           }}
+          social_url={post.social_url || undefined}
           technologies={post.technologies}
           links={post.links}
         />

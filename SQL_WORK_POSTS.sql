@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS work_posts (
   media_type TEXT NOT NULL CHECK (media_type IN ('image', 'video')),
   media_url TEXT NOT NULL,
   media_poster TEXT DEFAULT '',       -- Miniatura para videos (opcional)
+  social_url TEXT DEFAULT '',         -- URL de TikTok o Instagram para embed
   technologies TEXT[] DEFAULT ARRAY[]::TEXT[],
   links JSONB DEFAULT '[]'::JSONB,    -- [{ "label": "Demo", "url": "..." }]
   position INTEGER DEFAULT 0,         -- Orden de aparición

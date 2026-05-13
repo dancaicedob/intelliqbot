@@ -10,6 +10,7 @@ export interface WorkPost {
   media_type: 'image' | 'video';
   media_url: string;
   media_poster?: string;
+  social_url?: string;      // URL de TikTok o Instagram para embed
   technologies: string[];
   links: { label: string; url: string }[];
   position: number;
@@ -54,6 +55,7 @@ export async function saveWorkPost(post: WorkPost): Promise<WorkPost> {
     media_type: post.media_type,
     media_url: post.media_url,
     media_poster: post.media_poster || '',
+    social_url: post.social_url || '',
     technologies: post.technologies,
     links: post.links,
     position: post.position,

@@ -11,6 +11,7 @@ interface WorkPost {
   media_type: 'image' | 'video';
   media_url: string;
   media_poster?: string;
+  social_url?: string;
   technologies: string[];
   links: { label: string; url: string }[];
   position: number;
@@ -28,6 +29,7 @@ const emptyPost = (): WorkPost => ({
   media_type: 'video',
   media_url: '',
   media_poster: '',
+  social_url: '',
   technologies: [],
   links: [],
   position: 0,
@@ -46,6 +48,17 @@ export default function AdminWork({ posts, onRefresh }: Props) {
 
   const mediaInputRef = useRef<HTMLInputElement>(null);
   const posterInputRef = useRef<HTMLInputElement>(null);
+
+  // ── Social URL Detection ──────────────────────────────────────────────────
+  const detectSocialPlatform = (url: string): 'tiktok' | 'instagram' | null => {
+    if (!url) return null;
+    if (url.includes('tiktok.com')) return 'tiktok';
+    if (url.includes('instagram.com') || url.includes('instagr.am')) return 'instagram';
+    return null;
+  };
+
+  const getSocialPlatform = (post: WorkPost | null) =>
+    post?.social_url ? detectSocialPlatform(post.social_url) : null;
 
   // ── Upload Media ────────────────────────────────────────────────────────
   const handleMediaUpload = useCallback(
@@ -389,7 +402,60 @@ export default function AdminWork({ posts, onRefresh }: Props) {
                 </div>
               )}
 
-              {/* ── Título y Descripción ──────────── */}
+              {/* ── Social Media Embed ─────────────── */}
+              <div className="space-y-3 border border-gray-800 rounded-xl p-4 bg-black/40">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📱</span>
+                  <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">
+                    Embed de TikTok o Instagram — Opcional
+                  </label>
+                </div>
+                <p className="text-xs text-gray-600 font-mono">
+                  Pega la URL del post de TikTok o Instagram. Se mostrará embebido en tu web directamente desde la red social.
+                </p>
+
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={editing.social_url || ''}
+                    onChange={(e) => setEditing({ ...editing, social_url: e.target.value })}
+                    placeholder="https://www.tiktok.com/@usuario/video/... o https://www.instagram.com/reel/..."
+                    className="flex-1 bg-black border border-gray-800 rounded-lg p-2.5 text-sm text-white focus:border-pink-500 outline-none font-mono"
+                  />
+                  {editing.social_url && (
+                    <button
+                      type="button"
+                      onClick={() => setEditing({ ...editing, social_url: '' })}
+                      className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-red-400 hover:bg-red-900/20 transition-colors font-bold"
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+
+                {/* Platform detection badge */}
+                {getSocialPlatform(editing) === 'tiktok' && (
+                  <div className="flex items-center gap-2 px-3 py-2 bg-black border border-gray-800 rounded-lg">
+                    <span className="text-white text-sm">🎵</span>
+                    <span className="text-xs text-white font-mono font-bold">TikTok detectado</span>
+                    <span className="ml-auto text-[10px] text-emerald-400 font-mono">✓ Se mostrará como embed</span>
+                  </div>
+                )}
+                {getSocialPlatform(editing) === 'instagram' && (
+                  <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-900/30 to-pink-900/30 border border-pink-800/30 rounded-lg">
+                    <span className="text-pink-400 text-sm">📸</span>
+                    <span className="text-xs text-pink-300 font-mono font-bold">Instagram detectado</span>
+                    <span className="ml-auto text-[10px] text-emerald-400 font-mono">✓ Se mostrará como embed</span>
+                  </div>
+                )}
+
+                <div className="bg-blue-950/30 border border-blue-800/30 rounded-lg p-3">
+                  <p className="text-xs text-blue-300 font-mono leading-relaxed">
+                    💡 <strong>¿Cómo funciona?</strong> Sube tus videos a TikTok/IG normalmente → copia la URL del post → pégala aquí. El video se mostrará en tu web con su reproductor original, manteniendo todas las vistas y el engagement en la red social.
+                  </p>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
                   <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">Título *</label>
