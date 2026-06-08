@@ -29,6 +29,130 @@ const TABS: { key: Category; label: string; emoji: string; color: string; active
   { key: 'industrial', label: 'Industrial',    emoji: '⚙️', color: 'border-orange-500/30 text-orange-500/60 hover:border-orange-400 hover:text-orange-300',   active: 'border-orange-400 text-orange-300 bg-orange-950/40' },
 ];
 
+const DEFAULT_PROJECTS: WorkPost[] = [
+  {
+    title: "Domótica Integral para Hogares y Edificios",
+    description: "Diseño e implementación de sistemas residenciales y comerciales inteligentes. Permite el control unificado de iluminación, climatización, seguridad y consumo de energía desde una única interfaz intuitiva o asistentes de voz.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Home Assistant", "Zigbee", "MQTT", "Node-RED"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 1,
+    is_active: true
+  },
+  {
+    title: "Sistemas de Apertura Automática de Puertas y Portones",
+    description: "Sistemas automatizados de acceso mediante motores inteligentes de alta potencia. Integración con sensores de proximidad, reconocimiento de placas vehiculares (LPR) y apertura remota desde smartphone.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino Industrial", "Motores de Alto Torque", "Sensores Infrarrojos", "Wi-Fi Control"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 2,
+    is_active: true
+  },
+  {
+    title: "Control de Iluminación Inteligente",
+    description: "Automatización de sistemas de iluminación comercial y residencial. Escenarios programados, control de intensidad (dimming) y apagado/encendido automático basado en sensores de presencia e iluminación natural para eficiencia energética.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Zigbee", "Dimmers Digitales", "Sensores PIR", "ESP8266"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 3,
+    is_active: true
+  },
+  {
+    title: "Riego Automático Inteligente para Jardines",
+    description: "Sistema de irrigación automatizado y eficiente. Ajusta el flujo y los tiempos de riego basándose en lecturas en tiempo real de la humedad del suelo y la integración de pronósticos climáticos vía API.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Electroválvulas Solenoides", "Sensores de Humedad", "OpenWeatherMap API"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 4,
+    is_active: true
+  },
+  {
+    title: "Automatización de Persianas y Cortinas",
+    description: "Control automático de persianas, cortinas y toldos. Programable por horarios, temperatura interna o incidencia solar (LDR) para optimizar el consumo de aire acondicionado y calefacción.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Motores NEMA", "ESP32", "Sensores DS18B20", "LDRs"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 5,
+    is_active: true
+  },
+  {
+    title: "Telemetría y Gestión de Consumo Energético",
+    description: "Monitoreo en tiempo real del consumo eléctrico de plantas industriales, oficinas o residencias. Permite identificar consumos fantasmas, picos de corriente y proyectar el costo de la factura mensual.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensores SCT-013", "ESP32", "Modbus RTU", "Grafana", "InfluxDB"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 6,
+    is_active: true
+  },
+  {
+    title: "Control y Climatización de Piscinas y Spas",
+    description: "Automatización integral para el mantenimiento del agua. Control automático del ciclo de filtrado, encendido de calefacción, iluminación LED subacuática y lectura en tiempo real de niveles químicos.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino", "Sensores de pH y ORP", "Sensores de Temperatura", "Módulos de Relé"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 7,
+    is_active: true
+  },
+  {
+    title: "Monitoreo y Telemetría de Tanques de Agua",
+    description: "Sistema de medición de nivel de agua por ultrasonido. Envía alertas de nivel crítico, automatiza el llenado inteligente y previene el desabastecimiento de agua en conjuntos residenciales o empresas.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensor Ultrasónico", "LoRaWAN", "ESP32", "Dashboard en la Nube"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 8,
+    is_active: true
+  },
+  {
+    title: "Sistemas de Alarmas y Seguridad Inteligente",
+    description: "Alarma perimetral conectada y autónoma. Envía notificaciones de intrusión en tiempo real, activa sirenas locales y cuenta con un sistema de respaldo de energía para seguir operando sin electricidad.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensores PIR", "Módulos GSM", "ESP32", "Baterías LiPo Backup"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 9,
+    is_active: true
+  },
+  {
+    title: "Control de Acceso Seguro (Biometría, RFID y QR)",
+    description: "Terminales de acceso físico para control de personal y seguridad de instalaciones. Integración con lectores de huellas dactilares, tarjetas de proximidad RFID y lectura rápida de códigos QR para visitantes.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Lector Huella FPM10A", "RFID RC522", "Cámara Lectura QR", "Supabase Database"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 10,
+    is_active: true
+  },
+  {
+    title: "Automatización de Bombas de Agua y Presión",
+    description: "Tableros de control automático de motores y bombas de agua. Cuenta con protección por sobrecarga térmica, alternancia automática en sistemas multibomba y arranque basado en demanda.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino Industrial", "Presostatos Electrónicos", "Contactores Eléctricos", "Sensores de Flujo"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 11,
+    is_active: true
+  }
+];
+
 export default function WorksGrid() {
   const [posts, setPosts] = useState<WorkPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +160,16 @@ export default function WorksGrid() {
 
   useEffect(() => {
     getWorkPosts()
-      .then(setPosts)
+      .then((data) => {
+        if (data && data.length > 0) {
+          setPosts(data);
+        } else {
+          setPosts(DEFAULT_PROJECTS);
+        }
+      })
+      .catch(() => {
+        setPosts(DEFAULT_PROJECTS);
+      })
       .finally(() => setLoading(false));
   }, []);
 
