@@ -16,14 +16,6 @@ const nextConfig: NextConfig = {
     return {
       beforeFiles: [
         {
-          source: '/sitemap.xml',
-          destination: '/api/sitemap.xml',
-        },
-        {
-          source: '/robots.txt',
-          destination: '/api/robots.txt',
-        },
-        {
           source: '/llm.txt',
           destination: '/api/llm.txt',
         },
