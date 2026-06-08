@@ -16,6 +16,7 @@ interface WorkPost {
   links: { label: string; url: string }[];
   position: number;
   is_active: boolean;
+  category: 'software' | 'iot' | 'industrial';
 }
 
 interface Props {
@@ -34,6 +35,7 @@ const emptyPost = (): WorkPost => ({
   links: [],
   position: 0,
   is_active: true,
+  category: 'software',
 });
 
 export default function AdminWork({ posts, onRefresh }: Props) {
@@ -549,8 +551,20 @@ export default function AdminWork({ posts, onRefresh }: Props) {
                 )}
               </div>
 
-              {/* ── Posición y Estado ─────────────── */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* ── Categoría, Posición y Estado ─── */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">Categoría</label>
+                  <select
+                    value={editing.category || 'software'}
+                    onChange={(e) => setEditing({ ...editing, category: e.target.value as WorkPost['category'] })}
+                    className="w-full bg-black border border-gray-800 rounded-lg p-3 text-white focus:border-emerald-500 outline-none"
+                  >
+                    <option value="software">🤖 IA & Software</option>
+                    <option value="iot">📡 IoT & Hardware</option>
+                    <option value="industrial">⚙️ Industrial</option>
+                  </select>
+                </div>
                 <div className="space-y-2">
                   <label className="text-xs font-mono text-gray-400 uppercase tracking-widest">Posición (orden)</label>
                   <input

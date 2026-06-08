@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 
 const baseMetadata: Metadata = {
   metadataBase: new URL("https://intelliqbot.co"),
-  title: "Intelliqbot - Agencia de Inteligencia Artificial",
-  description: "Transformamos la operación de miles de negocios con plataformas y automatización avanzada con IA.",
-  keywords: ["IA", "Agencia IA", "Automatización", "Intelliqbot"],
+  title: "Intelliqbot - Automatización, IoT y Software a Medida en Colombia",
+  description: "Desarrollamos soluciones de automatización, IoT y software a medida. Desde aplicaciones e inteligencia artificial hasta dispositivos electrónicos, sensores, Arduino, ESP32 y sistemas de control en Colombia.",
+  keywords: ["automatización Colombia", "IoT Colombia", "Arduino Colombia", "ESP32 Colombia", "inteligencia artificial Colombia", "domótica Colombia", "automatización industrial Colombia", "chatbot IA Colombia", "software a medida Colombia", "Intelliqbot"],
 };
 
 export async function generateMetadata(): Promise<Metadata> {

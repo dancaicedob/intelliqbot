@@ -15,6 +15,7 @@ export interface WorkPost {
   links: { label: string; url: string }[];
   position: number;
   is_active: boolean;
+  category: 'software' | 'iot' | 'industrial';
 }
 
 // ─── READ ─────────────────────────────────────────────────────────────────────
@@ -61,6 +62,7 @@ export async function saveWorkPost(post: WorkPost): Promise<{ success: boolean; 
       links: post.links,
       position: post.position,
       is_active: post.is_active,
+      category: post.category || 'software',
     };
 
     let result;

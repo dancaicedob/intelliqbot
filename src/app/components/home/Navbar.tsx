@@ -64,19 +64,43 @@ export default function FloatingNavbar() {
         )}
       >
         <div className="flex flex-col justify-between h-full p-8">
-          <ul className="space-y-6 mt-20">
-            {['Work', 'Servicios', 'Nosotros', 'Contacto'].map((section) => (
-              <li key={section}>
+          <ul className="space-y-5 mt-20">
+            {[
+              { label: 'Work', href: '/work' },
+              { label: 'Servicios', href: '/servicios' },
+              { label: 'Nosotros', href: '/nosotros' },
+              { label: 'Contacto', href: '/contacto' },
+            ].map((item) => (
+              <li key={item.label}>
                 <Link
-                  href={`#${section.toLowerCase()}`}
+                  href={item.href}
                   onClick={closeMenu}
                   className="text-2xl font-semibold text-white hover:text-cyan-400 transition-colors"
                 >
-                  {section}
+                  {item.label}
                 </Link>
               </li>
             ))}
           </ul>
+
+          {/* Sub-servicios */}
+          <div className="mt-4">
+            <p className="text-gray-600 font-mono text-xs uppercase tracking-widest mb-3">Servicios</p>
+            <div className="flex flex-col gap-3">
+              <Link href="/servicios/automatizacion-ia" onClick={closeMenu} className="flex items-center gap-3 text-sm text-gray-400 hover:text-cyan-400 transition-colors">
+                <span className="w-6 h-6 rounded-lg bg-cyan-950/60 border border-cyan-500/30 flex items-center justify-center text-xs">🤖</span>
+                IA & Software
+              </Link>
+              <Link href="/servicios/iot-conectividad" onClick={closeMenu} className="flex items-center gap-3 text-sm text-gray-400 hover:text-emerald-400 transition-colors">
+                <span className="w-6 h-6 rounded-lg bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center text-xs">📡</span>
+                IoT, Arduino & ESP32
+              </Link>
+              <Link href="/servicios/automatizacion-fisica" onClick={closeMenu} className="flex items-center gap-3 text-sm text-gray-400 hover:text-orange-400 transition-colors">
+                <span className="w-6 h-6 rounded-lg bg-orange-950/60 border border-orange-500/30 flex items-center justify-center text-xs">⚙️</span>
+                Automatización Industrial
+              </Link>
+            </div>
+          </div>
 
           <div className="text-center">
             <h3 className="text-cyan-500 font-mono text-xs uppercase tracking-widest mb-3 border-b border-cyan-900/50 pb-2 inline-block">Soluciones Locales</h3>

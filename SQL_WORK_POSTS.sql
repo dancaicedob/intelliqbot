@@ -83,3 +83,15 @@ CREATE POLICY "Delete admin work-media"
 ON storage.objects FOR DELETE
 TO authenticated
 USING (bucket_id = 'work-media');
+
+-- ============================================================
+-- MIGRACIÓN: Añadir campo category a work_posts
+-- Ejecuta esto en el SQL Editor de Supabase si la tabla ya existe
+-- ============================================================
+
+ALTER TABLE work_posts
+ADD COLUMN IF NOT EXISTS category TEXT DEFAULT 'software'
+CHECK (category IN ('software', 'iot', 'industrial'));
+
+-- Índice opcional para filtrar por categoría
+CREATE INDEX IF NOT EXISTS work_posts_category_idx ON work_posts (category);
