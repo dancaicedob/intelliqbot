@@ -7,7 +7,7 @@ const baseMetadata: Metadata = {
   openGraph: {
     title: 'Nosotros | Intelliqbot',
     description: 'Transformamos la forma en que trabajan las empresas mediante sistemas inteligentes, integración de herramientas y flujos automatizados.',
-    url: 'https://tu-dominio.com/nosotros',
+    url: 'https://intelliqbot.co/nosotros',
     type: 'website',
     images: ['/images/logo-intelliqbot.png'],
   },
@@ -36,8 +36,8 @@ export default function NosotrosLayout({
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Intelliqbot",
-            "url": "https://tu-dominio.com",
-            "logo": "https://tu-dominio.com/images/logo-intelliqbot.png",
+            "url": "https://intelliqbot.co",
+            "logo": "https://intelliqbot.co/images/logo-intelliqbot.png",
             "contactPoint": {
               "@type": "ContactPoint",
               "telephone": "+57-317-628-5563",

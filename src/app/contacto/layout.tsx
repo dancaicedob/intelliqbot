@@ -7,7 +7,7 @@ const baseMetadata: Metadata = {
   openGraph: {
     title: 'Contacto | Intelliqbot',
     description: 'Inicia el protocolo de automatización. Agenda una sesión o escríbenos directamente a través de nuestro canal seguro.',
-    url: 'https://tu-dominio.com/contacto',
+    url: 'https://intelliqbot.co/contacto',
     type: 'website',
     images: ['/images/logo-intelliqbot.png'],
   },
@@ -36,7 +36,7 @@ export default function ContactoLayout({
             "@context": "https://schema.org",
             "@type": "ContactPage",
             "name": "Contacto Intelliqbot",
-            "url": "https://tu-dominio.com/contacto",
+            "url": "https://intelliqbot.co/contacto",
             "mainEntity": {
               "@type": "Organization",
               "name": "Intelliqbot",

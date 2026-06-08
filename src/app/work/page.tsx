@@ -3,11 +3,18 @@
 import Navbar from '@/app/components/home/Navbar';
 import WorksGrid from '@/app/components/work/WorksGrid';
 
-export const metadata = {
-  title: 'Work | Mis Proyectos',
-  description:
-    'Explora los proyectos de inteligencia artificial, dashboards y aplicaciones web que he desarrollado.',
+import { getDynamicSeo } from '@/lib/seo';
+import type { Metadata } from 'next';
+
+const baseMetadata: Metadata = {
+  title: 'Portafolio de Proyectos | Intelliqbot',
+  description: 'Explora nuestra galería de proyectos en IoT, Inteligencia Artificial, Automatización Industrial y Software en Colombia.',
+  keywords: ['portafolio', 'proyectos', 'automatización', 'iot', 'hardware', 'industrial', 'software', 'colombia', 'Bogotá', 'Medellín', 'Cali'],
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return await getDynamicSeo('/work', baseMetadata);
+}
 
 export default function WorkPage() {
   return (
