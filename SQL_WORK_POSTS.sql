@@ -223,5 +223,115 @@ VALUES
   11,
   true,
   'industrial'
+),
+(
+  'Sensores de Temperatura y Humedad en Tiempo Real',
+  'Red de sensores inalámbricos distribuidos para el monitoreo continuo de variables ambientales en tiempo real. Ideal para laboratorios, bodegas de almacenamiento, centros de datos o cadenas de frío.',
+  'image',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['ESP32', 'Sensores DHT22 / AM2302', 'InfluxDB', 'Grafana', 'WiFi / LoRaWAN'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  12,
+  true,
+  'iot'
+),
+(
+  'Monitoreo y Diagnóstico de Equipos Industriales',
+  'Sistema de supervisión en tiempo real de maquinaria industrial pesada y ligera. Detecta de forma temprana anomalías térmicas, vibraciones anormales y ciclos de uso para mantenimiento predictivo.',
+  'image',
+  'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Arduino Industrial', 'Sensores de Vibración', 'Modbus TCP', 'Node-RED', 'Alertas SMS'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  13,
+  true,
+  'industrial'
+),
+(
+  'Seguimiento y Localización GPS Vehicular',
+  'Dispositivo de geolocalización en tiempo real para vehículos y flotas comerciales. Proporciona historial de rutas, velocidades máximas, geocercas de seguridad y apagado remoto de motores.',
+  'image',
+  'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Módulo GPS Neo-6M', 'GSM / GPRS Shield', 'ESP32', 'API de Google Maps', 'React Native'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  14,
+  true,
+  'iot'
+),
+(
+  'Control Remoto de Dispositivos desde App Móvil',
+  'Aplicación móvil nativa conectada a hardware a medida para encender, apagar o regular cualquier equipo eléctrico de forma remota y segura, sin importar la distancia geográfica del usuario.',
+  'image',
+  'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['React Native', 'Firebase Realtime Database', 'ESP32', 'WebSockets'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  15,
+  true,
+  'iot'
+),
+(
+  'Sistema de Alertas Automáticas por WhatsApp y Correo',
+  'Módulo de integración que notifica de inmediato ante eventos críticos del sistema (como alarmas de intrusión, fallos de equipos o niveles bajos) a través de WhatsApp corporativo y correo electrónico.',
+  'image',
+  'https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Node.js', 'Twilio API', 'Nodemailer', 'Webhooks de Servidor'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  16,
+  true,
+  'software'
+),
+(
+  'Estaciones Meteorológicas Conectadas',
+  'Estación de monitoreo ambiental autónoma que mide velocidad y dirección del viento, pluviosidad, radiación solar, humedad y calidad del aire. Ideal para zonas rurales y agricultura.',
+  'image',
+  'https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['ESP32', 'Anemómetro y Pluviómetro', 'Sensores de Calidad de Aire', 'Panel Solar', 'LoRaWAN'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  17,
+  true,
+  'iot'
+),
+(
+  'Smart Agriculture: Monitoreo de Cultivos',
+  'Solución IoT para optimización de recursos agrícolas. Sensores inalámbricos de humedad del suelo a distintas profundidades, temperatura de la hoja y PH para optimizar fertilizantes.',
+  'image',
+  'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['ESP32', 'LoRaWAN', 'Sensores NPK de Suelo', 'Paneles Solares Integrados'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  18,
+  true,
+  'iot'
+),
+(
+  'Medición y Control Remoto de Niveles de Líquidos',
+  'Sensores industriales sumergibles o ultrasónicos de alta precisión para tanques de combustible, agua o químicos. Muestra volumen en tiempo real y gestiona alertas de sobrellenado.',
+  'image',
+  'https://images.unsplash.com/photo-1518152006812-cdab29b069a8?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Sensores de Presión Hidrostática', 'ESP32', 'RS485', 'Transmisores 4-20mA'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  19,
+  true,
+  'industrial'
+),
+(
+  'Contadores Inteligentes de Energía (Smart Metering)',
+  'Medidores bidireccionales de energía eléctrica para redes inteligentes. Monitoreo instantáneo de factor de potencia, voltaje, consumo activo y reactivo para auditorías de eficiencia.',
+  'image',
+  'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Módulo PZEM-004T', 'ESP32', 'Protocolo MQTT', 'Modbus Industrial'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  20,
+  true,
+  'industrial'
+),
+(
+  'Sistemas de Telemetría Industrial e IoT',
+  'Plataforma integral para recolección, transmisión y visualización remota de datos desde sensores ubicados en puntos distantes mediante redes móviles 4G y satelitales.',
+  'image',
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+  ARRAY['Modems GSM 4G', 'ESP32', 'AWS IoT Core', 'Grafana Dashboards'],
+  '[{"label": "Cotizar Solución", "url": "/contacto"}]'::jsonb,
+  21,
+  true,
+  'industrial'
 )
 ON CONFLICT DO NOTHING;
