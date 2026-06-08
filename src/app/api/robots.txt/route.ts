@@ -4,7 +4,7 @@ import { publicRoutes } from '@/config/publicRoutes';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co';
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co').replace('://www.', '://');
   const settings = await getSiteSettings();
 
   // Rutas excluidas del sitemap

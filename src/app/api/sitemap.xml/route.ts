@@ -1,8 +1,7 @@
 import { publicRoutes } from '@/config/publicRoutes';
 
 export async function GET() {
-  // Obtener la URL base del sitio
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co';
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co').replace('://www.', '://');
 
   // Generar el XML del sitemap
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

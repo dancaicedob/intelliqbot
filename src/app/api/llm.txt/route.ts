@@ -3,7 +3,7 @@ import { getSiteSettings } from '@/actions/seoActions';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co';
+  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co').replace('://www.', '://');
   const settings = await getSiteSettings();
 
   const defaultLlmTxt = `# llm.txt - Información para Modelos de Lenguaje
