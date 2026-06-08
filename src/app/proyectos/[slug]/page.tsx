@@ -57,8 +57,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           
           {/* Left Column: Image / Media */}
-          <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-cyan-900/10 group">
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent z-10" />
+          <div className="relative w-full max-w-md mx-auto aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-cyan-900/10 group">
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent z-10" />
             <Image
               src={project.media_url}
               alt={project.title}
