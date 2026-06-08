@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 export interface WorkPost {
   id?: string;
+  slug?: string;
   title: string;
   description: string;
   media_type: 'image' | 'video';

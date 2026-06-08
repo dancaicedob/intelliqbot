@@ -1,0 +1,260 @@
+import type { WorkPost } from '@/actions/workActions';
+
+export interface ProjectData extends WorkPost {
+  slug: string;
+}
+
+export const projectsData: ProjectData[] = [
+  {
+    slug: "domotica-integral-hogares-edificios",
+    title: "Domótica Integral para Hogares y Edificios",
+    description: "Diseño e implementación de sistemas residenciales y comerciales inteligentes. Permite el control unificado de iluminación, climatización, seguridad y consumo de energía desde una única interfaz intuitiva o asistentes de voz.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Home Assistant", "Zigbee", "MQTT", "Node-RED"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 1,
+    is_active: true
+  },
+  {
+    slug: "sistemas-apertura-automatica-puertas-portones",
+    title: "Sistemas de Apertura Automática de Puertas y Portones",
+    description: "Sistemas automatizados de acceso mediante motores inteligentes de alta potencia. Integración con sensores de proximidad, reconocimiento de placas vehiculares (LPR) y apertura remota desde smartphone.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino Industrial", "Motores de Alto Torque", "Sensores Infrarrojos", "Wi-Fi Control"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 2,
+    is_active: true
+  },
+  {
+    slug: "control-iluminacion-inteligente",
+    title: "Control de Iluminación Inteligente",
+    description: "Automatización de sistemas de iluminación comercial y residencial. Escenarios programados, control de intensidad (dimming) y apagado/encendido automático basado en sensores de presencia e iluminación natural para eficiencia energética.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Zigbee", "Dimmers Digitales", "Sensores PIR", "ESP8266"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 3,
+    is_active: true
+  },
+  {
+    slug: "riego-automatico-inteligente-jardines",
+    title: "Riego Automático Inteligente para Jardines",
+    description: "Sistema de irrigación automatizado y eficiente. Ajusta el flujo y los tiempos de riego basándose en lecturas en tiempo real de la humedad del suelo y la integración de pronósticos climáticos vía API.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Electroválvulas Solenoides", "Sensores de Humedad", "OpenWeatherMap API"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 4,
+    is_active: true
+  },
+  {
+    slug: "automatizacion-persianas-cortinas",
+    title: "Automatización de Persianas y Cortinas",
+    description: "Control automático de persianas, cortinas y toldos. Programable por horarios, temperatura interna o incidencia solar (LDR) para optimizar el consumo de aire acondicionado y calefacción.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Motores NEMA", "ESP32", "Sensores DS18B20", "LDRs"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 5,
+    is_active: true
+  },
+  {
+    slug: "telemetria-gestion-consumo-energetico",
+    title: "Telemetría y Gestión de Consumo Energético",
+    description: "Monitoreo en tiempo real del consumo eléctrico de plantas industriales, oficinas o residencias. Permite identificar consumos fantasmas, picos de corriente y proyectar el costo de la factura mensual.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensores SCT-013", "ESP32", "Modbus RTU", "Grafana", "InfluxDB"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 6,
+    is_active: true
+  },
+  {
+    slug: "control-climatizacion-piscinas-spas",
+    title: "Control y Climatización de Piscinas y Spas",
+    description: "Automatización integral para el mantenimiento del agua. Control automático del ciclo de filtrado, encendido de calefacción, iluminación LED subacuática y lectura en tiempo real de niveles químicos.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino", "Sensores de pH y ORP", "Sensores de Temperatura", "Módulos de Relé"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 7,
+    is_active: true
+  },
+  {
+    slug: "monitoreo-telemetria-tanques-agua",
+    title: "Monitoreo y Telemetría de Tanques de Agua",
+    description: "Sistema de medición de nivel de agua por ultrasonido. Envía alertas de nivel crítico, automatiza el llenado inteligente y previene el desabastecimiento de agua en conjuntos residenciales o empresas.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1581092162384-8987c1d64718?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensor Ultrasónico", "LoRaWAN", "ESP32", "Dashboard en la Nube"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 8,
+    is_active: true
+  },
+  {
+    slug: "sistemas-alarmas-seguridad-inteligente",
+    title: "Sistemas de Alarmas y Seguridad Inteligente",
+    description: "Alarma perimetral conectada y autónoma. Envía notificaciones de intrusión en tiempo real, activa sirenas locales y cuenta con un sistema de respaldo de energía para seguir operando sin electricidad.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensores PIR", "Módulos GSM", "ESP32", "Baterías LiPo Backup"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 9,
+    is_active: true
+  },
+  {
+    slug: "control-acceso-seguro-biometria-rfid-qr",
+    title: "Control de Acceso Seguro (Biometría, RFID y QR)",
+    description: "Terminales de acceso físico para control de personal y seguridad de instalaciones. Integración con lectores de huellas dactilares, tarjetas de proximidad RFID y lectura rápida de códigos QR para visitantes.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Lector Huella FPM10A", "RFID RC522", "Cámara Lectura QR", "Supabase Database"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 10,
+    is_active: true
+  },
+  {
+    slug: "automatizacion-bombas-agua-presion",
+    title: "Automatización de Bombas de Agua y Presión",
+    description: "Tableros de control automático de motores y bombas de agua. Cuenta con protección por sobrecarga térmica, alternancia automática en sistemas multibomba y arranque basado en demanda.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino Industrial", "Presostatos Electrónicos", "Contactores Eléctricos", "Sensores de Flujo"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 11,
+    is_active: true
+  },
+  {
+    slug: "sensores-temperatura-humedad-tiempo-real",
+    title: "Sensores de Temperatura y Humedad en Tiempo Real",
+    description: "Red de sensores inalámbricos distribuidos para el monitoreo continuo de variables ambientales en tiempo real. Ideal para laboratorios, bodegas de almacenamiento, centros de datos o cadenas de frío.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Sensores DHT22 / AM2302", "InfluxDB", "Grafana", "WiFi / LoRaWAN"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 12,
+    is_active: true
+  },
+  {
+    slug: "monitoreo-diagnostico-equipos-industriales",
+    title: "Monitoreo y Diagnóstico de Equipos Industriales",
+    description: "Sistema de supervisión en tiempo real de maquinaria industrial pesada y ligera. Detecta de forma temprana anomalías térmicas, vibraciones anormales y ciclos de uso para mantenimiento predictivo.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Arduino Industrial", "Sensores de Vibración", "Modbus TCP", "Node-RED", "Alertas SMS"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 13,
+    is_active: true
+  },
+  {
+    slug: "seguimiento-localizacion-gps-vehicular",
+    title: "Seguimiento y Localización GPS Vehicular",
+    description: "Dispositivo de geolocalización en tiempo real para vehículos y flotas comerciales. Proporciona historial de rutas, velocidades máximas, geocercas de seguridad y apagado remoto de motores.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Módulo GPS Neo-6M", "GSM / GPRS Shield", "ESP32", "API de Google Maps", "React Native"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 14,
+    is_active: true
+  },
+  {
+    slug: "control-remoto-dispositivos-app-movil",
+    title: "Control Remoto de Dispositivos desde App Móvil",
+    description: "Aplicación móvil nativa conectada a hardware a medida para encender, apagar o regular cualquier equipo eléctrico de forma remota y segura, sin importar la distancia geográfica del usuario.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["React Native", "Firebase Realtime Database", "ESP32", "WebSockets"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 15,
+    is_active: true
+  },
+  {
+    slug: "sistema-alertas-automaticas-whatsapp-correo",
+    title: "Sistema de Alertas Automáticas por WhatsApp y Correo",
+    description: "Módulo de integración que notifica de inmediato ante eventos críticos del sistema (como alarmas de intrusión, fallos de equipos o niveles bajos) a través de WhatsApp corporativo y correo electrónico.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Node.js", "Twilio API", "Nodemailer", "Webhooks de Servidor"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "software",
+    position: 16,
+    is_active: true
+  },
+  {
+    slug: "estaciones-meteorologicas-conectadas",
+    title: "Estaciones Meteorológicas Conectadas",
+    description: "Estación de monitoreo ambiental autónoma que mide velocidad y dirección del viento, pluviosidad, radiación solar, humedad y calidad del aire. Ideal para zonas rurales y agricultura.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "Anemómetro y Pluviómetro", "Sensores de Calidad de Aire", "Panel Solar", "LoRaWAN"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 17,
+    is_active: true
+  },
+  {
+    slug: "smart-agriculture-monitoreo-cultivos",
+    title: "Smart Agriculture: Monitoreo de Cultivos",
+    description: "Solución IoT para optimización de recursos agrícolas. Sensores inalámbricos de humedad del suelo a distintas profundidades, temperatura de la hoja y PH para optimizar fertilizantes.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["ESP32", "LoRaWAN", "Sensores NPK de Suelo", "Paneles Solares Integrados"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "iot",
+    position: 18,
+    is_active: true
+  },
+  {
+    slug: "medicion-control-remoto-niveles-liquidos",
+    title: "Medición y Control Remoto de Niveles de Líquidos",
+    description: "Sensores industriales sumergibles o ultrasónicos de alta precisión para tanques de combustible, agua o químicos. Muestra volumen en tiempo real y gestiona alertas de sobrellenado.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1518152006812-cdab29b069a8?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Sensores de Presión Hidrostática", "ESP32", "RS485", "Transmisores 4-20mA"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 19,
+    is_active: true
+  },
+  {
+    slug: "contadores-inteligentes-energia",
+    title: "Contadores Inteligentes de Energía (Smart Metering)",
+    description: "Medidores bidireccionales de energía eléctrica para redes inteligentes. Monitoreo instantáneo de factor de potencia, voltaje, consumo activo y reactivo para auditorías de eficiencia.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Módulo PZEM-004T", "ESP32", "Protocolo MQTT", "Modbus Industrial"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 20,
+    is_active: true
+  },
+  {
+    slug: "sistemas-telemetria-industrial-iot",
+    title: "Sistemas de Telemetría Industrial e IoT",
+    description: "Plataforma integral para recolección, transmisión y visualización remota de datos desde sensores ubicados en puntos distantes mediante redes móviles 4G y satelitales.",
+    media_type: "image",
+    media_url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
+    technologies: ["Modems GSM 4G", "ESP32", "AWS IoT Core", "Grafana Dashboards"],
+    links: [{ label: "Cotizar Solución", url: "/contacto" }],
+    category: "industrial",
+    position: 21,
+    is_active: true
+  }
+];

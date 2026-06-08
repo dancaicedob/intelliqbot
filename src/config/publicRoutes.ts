@@ -53,3 +53,14 @@ export const publicRoutes: PublicRoute[] = [
     changefreq: 'yearly',
   },
 ];
+
+// Append all dynamic project routes for SEO
+import { projectsData } from '@/data/projects';
+
+projectsData.forEach(project => {
+  publicRoutes.push({
+    path: `/proyectos/${project.slug}`,
+    priority: 0.7,
+    changefreq: 'monthly',
+  });
+});
