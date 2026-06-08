@@ -3,24 +3,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from '@/app/components/ProjectCard';
-import { getWorkPosts } from '@/actions/workActions';
+import { getWorkPosts, type WorkPost } from '@/actions/workActions';
 
 type Category = 'all' | 'software' | 'iot' | 'industrial';
-
-interface WorkPost {
-  id?: string;
-  title: string;
-  description: string;
-  media_type: 'image' | 'video';
-  media_url: string;
-  media_poster?: string;
-  social_url?: string;
-  technologies: string[];
-  links: { label: string; url: string }[];
-  position: number;
-  is_active: boolean;
-  category?: Category;
-}
 
 const TABS: { key: Category; label: string; emoji: string; color: string; active: string }[] = [
   { key: 'all',        label: 'Todo',         emoji: '✦',  color: 'border-white/20 text-gray-400 hover:border-white/40 hover:text-white',        active: 'border-white text-white bg-white/10' },
@@ -271,13 +256,25 @@ export default function WorksGrid() {
   useEffect(() => {
     getWorkPosts()
       .then((data) => {
-        if (data && data.length > 0) {
-          setPosts(data);
-        } else {
-          setPosts(DEFAULT_PROJECTS);
-        }
+        const dbPosts = data || [];
+        // Fusionamos los de BD con los de defecto, evitando duplicados por título
+        const merged = [...dbPosts];
+        
+        DEFAULT_PROJECTS.forEach((defProj) => {
+          const exists = dbPosts.some(
+            (p) => p.title.toLowerCase().trim() === defProj.title.toLowerCase().trim()
+          );
+          if (!exists) {
+            merged.push(defProj);
+          }
+        });
+
+        // Ordenamos por la posición definida
+        merged.sort((a, b) => (a.position ?? 99) - (b.position ?? 99));
+        setPosts(merged);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.warn("Error cargando de Supabase, usando locales:", err);
         setPosts(DEFAULT_PROJECTS);
       })
       .finally(() => setLoading(false));
