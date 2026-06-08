@@ -4,7 +4,7 @@ import { publicRoutes } from '@/config/publicRoutes';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://tudominio.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://intelliqbot.co';
   const settings = await getSiteSettings();
 
   // Rutas excluidas del sitemap
@@ -25,8 +25,8 @@ User-agent: Googlebot
 Disallow: /admin/
 Disallow: /api/
 Disallow: /*.json
-Disallow: /*.xml
 Disallow: /*?*sort=
+Allow: /sitemap.xml
 Allow: /
 
 User-agent: Bingbot
@@ -113,7 +113,6 @@ Disallow: /admin/
 Disallow: /api/
 Disallow: /admin
 Disallow: /*.json
-Disallow: /*.xml
 Disallow: /*?*sort=
 Disallow: /*?*filter=
 Disallow: /*?*page=
@@ -121,12 +120,13 @@ Disallow: /search
 Disallow: /account
 Disallow: /cart
 Disallow: /checkout
+Allow: /sitemap.xml
 Allow: /
 
 # ============================================
 # SITEMAPS
 # ============================================
-Sitemap: ${baseUrl}/api/sitemap.xml
+Sitemap: ${baseUrl}/sitemap.xml
 
 # ============================================
 # INFORMACIÓN LEGAL Y UBICACIONES (SEO Local)
